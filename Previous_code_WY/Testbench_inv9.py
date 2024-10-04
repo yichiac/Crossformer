@@ -15,7 +15,7 @@ import data_process as data
 import RNNcustom
 import json
 import os
- 
+
 
 with open("./config.json") as f:
     config=json.load(f)
@@ -43,7 +43,7 @@ if config['circuit']['unistep']:
         for i in range(len(rawdata[key])):
             if len(rawdata[key][i])>config['circuit']['nstep']:
                 rawdata[key][i]=rawdata[key][i][0:config['circuit']['nstep']]
-    
+
 #Outputs must be normalized if cross-entropy loss is used:
 if config['training']['loss']=='CE':
     for i in range(config['circuit']['noutput']):
@@ -83,7 +83,7 @@ if train:
             model,history=RNNcustom.train(model,config,config['training']['maxepoch'],dataloader,valid_tensor,optimizer,scheduler,loss,savedir,init,device,freshmodel)
             if 't' in valid_tensor:
                 invalid={'inset':valid_tensor['inset'], 't':valid_tensor['t']}
-            
+
             else:
                 invalid=valid_tensor['inset']
             with torch.no_grad():
@@ -115,7 +115,7 @@ ax1.set_ylim(0.0001,0.5)
 ax2.set_ylabel('Learning rate')
 ax1.legend(loc='upper left',fancybox=False, framealpha=1, facecolor='white', edgecolor='black')
 ax2.legend(loc='upper right',fancybox=False, framealpha=1, facecolor='white', edgecolor='black')
-plt.show() 
+plt.show()
 #%%
 # error=[]
 # #model=RNNcustom.RNNmodel(config)
