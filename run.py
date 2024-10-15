@@ -44,10 +44,12 @@ crossformer_model = Crossformer(data_dim=3, in_len=500, out_len=500, seg_len=6, 
                 dropout=0.0, baseline = False, device=torch.device('cuda:0'))
 
 trainer = Trainer(
-    max_epochs=config['training']['epochs'],
-    accelerator='gpu' if torch.cuda.is_available() else 'cpu',
-    devices=1 if torch.cuda.is_available() else None,
-    precision=16 if config['training']['mixed_precision'] else 32,
+    max_epochs = config['training']['maxepoch'],
+    # accelerator = 'auto',
+    # accelerator = 'gpu' if torch.cuda.is_available() else 'cpu',
+    # devices = 1 if torch.cuda.is_available() else None,
+    precision= 32,
+    # precision=16 if config['training']['mixed_precision'] else 32,
 )
 
 trainer.fit(crossformer_model, datamodule=data_module)
