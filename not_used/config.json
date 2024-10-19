@@ -1,0 +1,43 @@
+{
+"circuit": {
+"dev": "adc",
+"sel": "ft",
+"ninput": 3,
+"noutput": 2,
+"hRNN": 2.5e-09,
+"unistep": true,
+"aging": false,
+"nstep": 501,
+"agestart": 0,
+"agestop": 0,
+"agestep": 0
+},
+"model": {
+"modeltype": "gruode",
+"ODEmethod": "midpoint",
+"nhidden": 25,
+"nhidden_age": 0,
+"outclip": null,
+"norminputs": {
+},
+"normoutputs": {
+"0": [],
+"1": []
+},
+"nhidden_in": null,
+"nhidden_out": null
+},
+"training": {
+"nbatch": 16,
+"loss": "CE",
+"reg": "lds",
+"regweight": 0.015,
+"gradclip": "abs",
+"maxepoch": 500,
+"gpu": false
+},
+"VerilogA": {
+"modeltype": "vcvs",
+"mixedinputs": null
+}
+}
