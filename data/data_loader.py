@@ -11,6 +11,50 @@ from utils.tools import StandardScaler
 import warnings
 warnings.filterwarnings('ignore')
 
+
+class CircuitDataset(Dataset):
+    def __init__(self, dataset):
+        self.dataset = dataset
+
+    def __len__(self):
+        for key in self.dataset:
+            return self.dataset[key].size(0)
+
+    def __getitem__(self, idx):
+        sample = {}
+        for key in self.dataset:
+            sample[key] = self.dataset[key][idx]
+        return sample
+
+
+class CircuitDataModule(pl.LightningDataModule):
+    def __init__(self, train_dataset, val_dataset, batch_size: int = 16, num_workers: int = 4, device=torch.device('cpu')):
+        super().__init__()
+        CircuitDataset
+        self.train_dataset = train_dataset
+        self.val_dataset = val_dataset
+        self.batch_size = batch_size
+        self.num_workers = num_workers
+        self.device = device
+
+    def setup(self, stage=str) -> None:
+        """
+        Sets up the datasets for training and validation.
+        """
+        for key in self.train_dataset:
+            self.train_dataset[key]=torch.tensor(self.train_dataset[key], device=self.device)
+            self.val_dataset[key]=torch.tensor(self.val_dataset[key], device=self.device)
+
+        self.train_dataset =  CircuitDataset(self.train_dataset)
+        self.val_dataset = CircuitDataset(self.val_dataset)
+
+    def train_dataloader(self):
+        return DataLoader(self.train_dataset, batch_size=self.batch_size, num_workers=self.num_workers, shuffle=True, drop_last=True)
+
+    def val_dataloader(self):
+        return DataLoader(self.val_dataset, batch_size=self.batch_size, num_workers=self.num_workers, shuffle=False, drop_last=True)
+
+
 # class Dataset_MTS(Dataset):
 #     def __init__(self, root_path, data_path='ETTh1.csv', flag='train', size=None,
 #                   data_split = [0.7, 0.1, 0.2], scale=True, scale_statistic=None):
@@ -80,44 +124,3 @@ warnings.filterwarnings('ignore')
 
 #     def inverse_transform(self, data):
 #         return self.scaler.inverse_transform(data)
-
-
-class CircuitDataset(Dataset):
-    def __init__(self, dataset):
-        # Why the dataset becomes tuple...?
-        self.inset = dataset[0]['inset']
-        self.outset = dataset[0]['outset']
-    def __len__(self):
-        return len(self.inset)
-    def __getitem__(self, idx):
-        inset = torch.tensor(self.inset[idx], dtype=torch.float32)
-        outset = torch.tensor(self.outset[idx], dtype=torch.float32)
-        return inset, outset
-        # sample={}
-        # for key in self.dataset:
-        #     sample[key]=self.dataset[key][idx]
-        # return sample
-
-class CircuitDataModule(pl.LightningDataModule):
-    def __init__(self, train_dataset, val_dataset, batch_size: int = 32, num_workers: int = 4):
-        super().__init__()
-        CircuitDataset,
-        self.train_dataset = train_dataset,
-        self.val_dataset = val_dataset,
-        self.batch_size = batch_size,
-        self.num_workers = num_workers,
-
-    def setup(self, stage=str) -> None:
-        """
-        Sets up the datasets for training and validation.
-        """
-        self.train_dataset =  CircuitDataset(self.train_dataset)
-        self.val_dataset = CircuitDataset(self.val_dataset)
-
-    def train_dataloader(self):
-        # why the num_workers become a tuple (4,)?
-        # why the batch_size become a tuple (32,)?
-        return DataLoader(self.train_dataset, batch_size=self.batch_size[0], num_workers=self.num_workers[0], shuffle=True)
-
-    def val_dataloader(self):
-        return DataLoader(self.val_dataset, batch_size=self.batch_size[0], num_workers=self.num_workers[0])
