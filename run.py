@@ -3,9 +3,11 @@ from lightning.pytorch import Trainer
 # from cross_models.cross_former import Crossformer
 from cross_models.crossformer_pl import CrossformerLightningModule
 
-from data import CircuitDataModule
+from data import CircuitDataModule, CircuitDataset
 import torch
-import Previous_code_WY.data_process as data
+import models.data_process as data
+from torch.utils.data import DataLoader
+
 import json
 
 if __name__ == "__main__":
@@ -40,8 +42,10 @@ if __name__ == "__main__":
     train_dataset, val_dataset= data.split(rawdata, rate=0.8, shuffle=False, aging=config['circuit']['aging'], \
                                 agestep=config['circuit']['agestep'])
 
-    datamodule = CircuitDataModule(train_dataset=train_dataset, val_dataset=val_dataset, batch_size=32, num_workers=4)
+    # model.to(device)
+    NRMSE_list = []
 
+    datamodule = CircuitDataModule(train_dataset=train_dataset, val_dataset=val_dataset, batch_size=16, num_workers=4, device=torch.device('cpu'))
     datamodule.setup()
     train_loader = datamodule.train_dataloader()
     val_loader = datamodule.val_dataloader()
