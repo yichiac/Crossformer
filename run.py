@@ -42,9 +42,6 @@ if __name__ == "__main__":
     train_dataset, val_dataset= data.split(rawdata, rate=0.8, shuffle=False, aging=config['circuit']['aging'], \
                                 agestep=config['circuit']['agestep'])
 
-    # model.to(device)
-    NRMSE_list = []
-
     datamodule = CircuitDataModule(train_dataset=train_dataset, val_dataset=val_dataset, batch_size=16, num_workers=4, device=torch.device('cpu'))
     datamodule.setup()
     train_loader = datamodule.train_dataloader()
@@ -53,6 +50,10 @@ if __name__ == "__main__":
     crossformer_model = CrossformerLightningModule(data_dim=3, in_len=500, out_len=500, seg_len=6, win_size=4,
                     factor=10, d_model=512, d_ff=1024, n_heads=8, e_layers=3,
                     dropout=0.0, baseline = False) #, device=torch.device('cuda:0'))
+
+
+    # model.to(device)
+    NRMSE_list = []
 
     trainer = Trainer(
         max_epochs = config['training']['maxepoch'],
