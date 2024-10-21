@@ -39,16 +39,16 @@ if config['circuit']['unistep']:
                 rawdata[key][i]=rawdata[key][i][0:config['circuit']['nstep']]
 
 #Outputs must be normalized if cross-entropy loss is used:
-class loss_crossentropy(nn.Module):
-    def __init__(self):
-        super().__init__()
-    def forward(self, pred, targ):
-        a=torch.mul(-(1-targ),torch.log10(1-pred))
-        b=torch.mul(-targ,torch.log10(pred))
-        return torch.mean(a+b)
+# class loss_crossentropy(nn.Module):
+#     def __init__(self):
+#         super().__init__()
+#     def forward(self, pred, targ):
+#         a=torch.mul(-(1-targ),torch.log10(1-pred))
+#         b=torch.mul(-targ,torch.log10(pred))
+#         return torch.mean(a+b)
 
 if config['training']['loss']=='CE':
-    loss = loss_crossentropy()
+    # loss = loss_crossentropy()
     for i in range(config['circuit']['noutput']):
         if str(i) not in config['model']['normoutputs']:
             config['model']['normoutputs'][str(i)]=[]
@@ -137,19 +137,19 @@ def vali(model, vali_loader):
     model.train()
     return total_loss
 
-class trainingloss(nn.Module):
-    def __init__(self,losstype,lds=None,ldsweight=0,device=torch.device('cpu')):
-        super().__init__()
-        self.loss=loss_crossentropy()
-        self.device=device
-    def forward(self,pred,targ,model,otherloss=None):
-        lossvalues=[self.loss(pred,targ)]
-        # if hasattr(self,'ldsreg'):
-        #     lossvalues.append(self.ldsreg(model)*self.ldsweight)
-        # if otherloss:
-        #     lossvalues.append(otherloss)
-        lossvalues.append(otherloss)
-        return (torch.sum(torch.stack(lossvalues)), lossvalues)
+# class trainingloss(nn.Module):
+#     def __init__(self,losstype,lds=None,ldsweight=0,device=torch.device('cpu')):
+#         super().__init__()
+#         self.loss=loss_crossentropy()
+#         self.device=device
+#     def forward(self,pred,targ,model,otherloss=None):
+#         lossvalues=[self.loss(pred,targ)]
+#         # if hasattr(self,'ldsreg'):
+#         #     lossvalues.append(self.ldsreg(model)*self.ldsweight)
+#         # if otherloss:
+#         #     lossvalues.append(otherloss)
+#         lossvalues.append(otherloss)
+#         return (torch.sum(torch.stack(lossvalues)), lossvalues)
 
 def NRMSE(prediction, target):
     # prediction = prediction.detach().numpy()
@@ -168,8 +168,8 @@ def NRMSE(prediction, target):
 
 
 if __name__ == '__main__':
-    # for epoch in range(1, config['training']['maxepoch']+1):
-    for epoch in range(3):
+    for epoch in range(1, config['training']['maxepoch']+1):
+    # for epoch in range(3):
         time_now = time.time()
         iter_count = 0
         train_loss = []
