@@ -3,6 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from einops import rearrange, repeat
 import lightning as pl
+from models.data_process import NRMSE
 
 from cross_models.cross_encoder import Encoder
 from cross_models.cross_decoder import Decoder
@@ -66,23 +67,24 @@ class CrossformerLightningModule(pl.LightningModule):
         return base + predict_y[:, :self.out_len, :]
 
     def training_step(self, batch, batch_idx):
-        x, y = batch
-        y_hat = self(x)
-        loss = F.mse_loss(y_hat, y)
+        insample = batch['inset']
+        outsample = batch['outset']
+        outpred = self.model(insample)
+        loss = NRMSE(y_hat, y) # need to check if it needs .tolist()
         self.log('train_loss', loss, on_step=True, on_epoch=True, prog_bar=True, logger=True)
         return loss
 
     def validation_step(self, batch, batch_idx):
         x, y = batch
         y_hat = self(x)
-        loss = F.mse_loss(y_hat, y)
+        loss = NRMSE(y_hat, y) # need to check if it needs .tolist()
         self.log('val_loss', loss, on_step=True, on_epoch=True, prog_bar=True, logger=True)
         return loss
 
     def test_step(self, batch, batch_idx):
         x, y = batch
         y_hat = self(x)
-        loss = F.mse_loss(y_hat, y)
+        loss = NRMSE(y_hat, y) # need to check if it needs .tolist()
         self.log('test_loss', loss, on_step=True, on_epoch=True, prog_bar=True, logger=True)
         return loss
 

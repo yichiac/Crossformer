@@ -26,13 +26,13 @@ def readfile(file,ni,no,unistep,tscale):
                 nanflag = False
             else:
                 if not unistep:
-                    t.append((datum[0]/tscale).tolist()) 
+                    t.append((datum[0]/tscale).tolist())
                     del datum[0]
                 inarray,outarray=np.split(np.array(datum),[ni])
                 if ni==0:
                     inarray=np.zeros((1,outarray.shape[-1]))
                 inset.append(inarray.transpose().tolist())
-                outset.append(outarray.transpose().tolist())                                        
+                outset.append(outarray.transpose().tolist())
             datum.clear()
     f.close()
     if unistep:
@@ -77,7 +77,7 @@ def importdata(path,sel, ni, no, aging, agestep, unistep,maxsample,tscale=1):
                 else:
                     l+=1
         return datapadding(dataset)
-    
+
 def datapadding(dataset):
     maxlength=max(len(a) for a in dataset['t'])
     for i in range(len(dataset['t'])):
@@ -86,7 +86,7 @@ def datapadding(dataset):
         dataset['inset'][i]=np.pad(dataset['inset'][i],((0,padlength),(0,0)),constant_values=0).tolist()
         dataset['outset'][i]=np.pad(dataset['outset'][i],((0,padlength),(0,0)),constant_values=0).tolist()
     return dataset
-    
+
 def normalize(data,normports):
     for key in normports:
         index=int(key)
@@ -131,7 +131,7 @@ def split(dataset, rate, shuffle,aging,agestep):
 #     inset = []
 #     outset =[]
 #     fileID='./data/'+dev+'/'+dev+'.csv'
-#     f = open(fileID,'r')     
+#     f = open(fileID,'r')
 #     datum=[]
 #     csvr = csv.reader(f)
 #     csvcount = 0
@@ -146,7 +146,7 @@ def split(dataset, rate, shuffle,aging,agestep):
 #                 print(fileID, csvcount/nline)
 #                 nanflag = False
 #             else:
-#                 nstep = np.size(datum[0])   
+#                 nstep = np.size(datum[0])
 #                 for n in range(nstep):
 #                     temp0=[]
 #                     for i in range(ni):
@@ -155,7 +155,7 @@ def split(dataset, rate, shuffle,aging,agestep):
 #                     temp1=[]
 #                     for i in range(no):
 #                         temp1.append(datum[ni+i][n])
-#                     outset.append(temp1)                                         
+#                     outset.append(temp1)
 #             datum.clear()
 #     f.close()
 #     inset=np.reshape(inset,(-1,nstep,ni)).tolist()
@@ -166,7 +166,7 @@ def split(dataset, rate, shuffle,aging,agestep):
 def AE(prediction, target):
     error=np.absolute(np.subtract(prediction,target))
     return (error)
-    
+
 def RMSE(prediction, target):
     error=np.power(np.subtract(prediction,target),2)
     RMSerror=np.sqrt(np.mean(error))
@@ -178,6 +178,9 @@ def MAE(prediction, target):
     return (meanerror)
 
 def NRMSE(prediction, target):
+    prediction = prediction.detach().numpy()
+    target = target.detach().numpy()
+
     error=np.sum(np.power(np.subtract(prediction,target),2),axis=1)
     norm=np.sum(np.power(target,2),axis=1)
     NRMSerror=np.mean(np.sqrt(error/norm))
@@ -196,13 +199,13 @@ def Russell(prediction, target):
     sumt=np.sum(np.power(target,2),axis=1)
     sumpt=np.sum(np.multiply(prediction,target),axis=1)
     rme=(sump-sumt)/np.sqrt(sump*sumt)
-    if rme>0: sign=1 
+    if rme>0: sign=1
     else: sign=-1
     Mr=sign*np.log10(1+np.abs(rme))
     Pr=1/np.pi*np.arccos(sumpt/np.sqrt((sump*sumt)))
     Cr=np.sqrt(np.pi/4*((Mr**2)+(Pr**2)))
     return (np.mean(np.abs(Mr)),np.mean(np.abs(Pr)),np.mean(Cr))
-    
+
 def SG(prediction, target):
     sump=np.sum(np.power(prediction,2),axis=1)
     sumt=np.sum(np.power(target,2),axis=1)

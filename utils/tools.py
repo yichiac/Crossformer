@@ -2,17 +2,19 @@ import numpy as np
 import torch
 import json
 
-def adjust_learning_rate(optimizer, epoch, args):
-    if args.lradj=='type1':
-        lr_adjust = {2: args.learning_rate * 0.5 ** 1, 4: args.learning_rate * 0.5 ** 2,
-                     6: args.learning_rate * 0.5 ** 3, 8: args.learning_rate * 0.5 ** 4,
-                     10: args.learning_rate * 0.5 ** 5}
-    elif args.lradj=='type2':
-        lr_adjust = {5: args.learning_rate * 0.5 ** 1, 10: args.learning_rate * 0.5 ** 2,
-                     15: args.learning_rate * 0.5 ** 3, 20: args.learning_rate * 0.5 ** 4,
-                     25: args.learning_rate * 0.5 ** 5}
-    else:
-        lr_adjust = {}
+def adjust_learning_rate(optimizer, epoch):
+# def adjust_learning_rate(optimizer, epoch, args):
+    # if args.lradj=='type1':
+    #     lr_adjust = {2: args.learning_rate * 0.5 ** 1, 4: args.learning_rate * 0.5 ** 2,
+    #                  6: args.learning_rate * 0.5 ** 3, 8: args.learning_rate * 0.5 ** 4,
+    #                  10: args.learning_rate * 0.5 ** 5}
+    # elif args.lradj=='type2':
+    #     lr_adjust = {5: args.learning_rate * 0.5 ** 1, 10: args.learning_rate * 0.5 ** 2,
+    #                  15: args.learning_rate * 0.5 ** 3, 20: args.learning_rate * 0.5 ** 4,
+    #                  25: args.learning_rate * 0.5 ** 5}
+    # else:
+    #     lr_adjust = {}
+    lr_adjust = {}
     if epoch in lr_adjust.keys():
         lr = lr_adjust[epoch]
         for param_group in optimizer.param_groups:
@@ -54,7 +56,7 @@ class StandardScaler():
     def __init__(self, mean=0., std=1.):
         self.mean = mean
         self.std = std
-    
+
     def fit(self, data):
         self.mean = data.mean(0)
         self.std = data.std(0)
