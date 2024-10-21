@@ -25,6 +25,7 @@ with open("./config.json") as f:
     config=json.load(f)
 
 device = torch.device("cuda" if config['training']['gpu'] and (torch.cuda.is_available()) else "cpu")
+print(device)
 
 datadir='datasets/'+config['circuit']['dev']+'/'+config['circuit']['sel']+'/'
 rawdata = data.importdata(path=datadir, sel=config['circuit']['dev'],ni=config['circuit']['ninput'], \
@@ -170,7 +171,7 @@ def NRMSE(prediction, target):
 
 
 if __name__ == '__main__':
-    for epoch in range(1, config['training']['maxepoch']+1):
+    for epoch in range(0, config['training']['maxepoch']+1):
     # for epoch in range(3):
         time_now = time.time()
         iter_count = 0
