@@ -34,7 +34,7 @@
 "regweight": 0.015,
 "gradclip": "abs",
 "maxepoch": 500,
-"gpu": false
+"gpu": true
 },
 "VerilogA": {
 "modeltype": "vcvs",
