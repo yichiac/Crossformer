@@ -186,7 +186,7 @@ if __name__ == '__main__':
             # losstotal, losses = loss(pred, true)
             train_loss.append(loss.item())
 
-            if (i+1) % 100==0:
+            if (i+1) % 5==0:
                 print("\titers: {0}, epoch: {1} | loss: {2:.7f}".format(i + 1, epoch + 1, loss.item()))
                 speed = (time.time()-time_now)/iter_count
                 left_time = speed*((config['training']['maxepoch'] - epoch)*train_steps - i)
