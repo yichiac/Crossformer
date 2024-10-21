@@ -182,6 +182,8 @@ if __name__ == '__main__':
             # true = sample['outset'][:,0:l,:].to(device)
             true = insample
             optimizer.zero_grad()
+            print('shape of insample before forward pass')
+            print(insample.shape)
             pred = model(insample)
             loss = NRMSE(pred, true)
             # losstotal, losses = loss(pred, true)
