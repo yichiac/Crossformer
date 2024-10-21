@@ -129,9 +129,9 @@ def vali(model, vali_loader, l):
     with torch.no_grad():
         for sample in vali_loader:
             # insample = sample['inset'][:,0:l,:].to(device)
-            # true = sample['outset'][:,0:l,:].to(device)
             insample = torch.cat([sample['inset'][:,0:l,:], sample['outset'][:,0:l,:]], dim=-1).to(device)
-            true = insample
+            # true = insample
+            true = sample['outset'][:,0:l,:].to(device)
             pred = model(insample)
             loss = NRMSE(pred, true)
             total_loss.append(loss.item())
@@ -182,8 +182,8 @@ if __name__ == '__main__':
         for sample in train_loader:
             # insample = sample['inset'][:,0:l,:].to(device)
             insample = torch.cat([sample['inset'][:,0:l,:], sample['outset'][:,0:l,:]], dim=-1).to(device)
-            # true = sample['outset'][:,0:l,:].to(device)
-            true = insample
+            true = sample['outset'][:,0:l,:].to(device)
+            # true = insample
             optimizer.zero_grad()
             # print('shape of insample before forward pass')
             # print(insample.shape)
