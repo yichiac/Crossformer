@@ -60,7 +60,7 @@ class Decoder(nn.Module):
             self.decode_layers.append(DecoderLayer(seg_len, d_model, n_heads, d_ff, dropout, \
                                         out_seg_num, factor))
 
-        self.fc_out = nn.Linear(5, 2) # reproject for the circuit dataset
+        # self.fc_out = nn.Linear(5, 2) # reproject for the circuit dataset
 
     def forward(self, x, cross):
         final_predict = None
@@ -77,6 +77,6 @@ class Decoder(nn.Module):
             i += 1
 
         final_predict = rearrange(final_predict, 'b (out_d seg_num) seg_len -> b (seg_num seg_len) out_d', out_d = ts_d)
-        final_predict = self.fc_out(final_predict)
+        # final_predict = self.fc_out(final_predict)
 
         return final_predict
