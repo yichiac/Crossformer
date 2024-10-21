@@ -122,13 +122,15 @@ savedir='model/'+config['circuit']['dev']+'_'+config['circuit']['sel']+'_gru'+st
 l = val_dataset['outset'].size(1)
 
 
-def vali(model, vali_loader):
+def vali(model, vali_loader, l):
     model.eval()
     total_loss = []
     with torch.no_grad():
         for sample in vali_loader:
-            insample = sample['inset'][:,0:l,:].to(device)
-            true = sample['outset'][:,0:l,:].to(device)
+            # insample = sample['inset'][:,0:l,:].to(device)
+            # true = sample['outset'][:,0:l,:].to(device)
+            insample = torch.cat([sample['inset'][:,0:l,:], sample['outset'][:,0:l,:]], dim=-1).to(device)
+            true = insample
             pred = model(insample)
             loss = NRMSE(pred, true)
             total_loss.append(loss.item())
@@ -182,8 +184,8 @@ if __name__ == '__main__':
             # true = sample['outset'][:,0:l,:].to(device)
             true = insample
             optimizer.zero_grad()
-            print('shape of insample before forward pass')
-            print(insample.shape)
+            # print('shape of insample before forward pass')
+            # print(insample.shape)
             pred = model(insample)
             loss = NRMSE(pred, true)
             # losstotal, losses = loss(pred, true)
@@ -202,9 +204,9 @@ if __name__ == '__main__':
 
         print("Epoch: {} cost time: {}".format(epoch+1, time.time()-epoch_time))
         train_loss = np.average(train_loss)
-        vali_loss = vali(model, val_loader)
+        vali_loss = vali(model, val_loader, l)
         # test_loss = vali(model, test_loader)
-        test_loss = vali(model, val_loader)
+        test_loss = vali(model, val_loader, l)
 
         print("Epoch: {0}, Steps: {1} | Train Loss: {2:.7f} Vali Loss: {3:.7f} Test Loss: {4:.7f}".format(
             epoch + 1, train_steps, train_loss, vali_loss, test_loss))
