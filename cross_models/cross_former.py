@@ -100,7 +100,6 @@ class CrossformerCircuit(nn.Module):
                                     out_seg_num = (self.pad_out_len // seg_len), factor = factor)
 
     def forward(self, x_seq):
-        print('the input of forward x_seq: ', x_seq.shape)
         if (self.baseline):
             base = x_seq.mean(dim = 1, keepdim = True)
         else:
@@ -110,8 +109,6 @@ class CrossformerCircuit(nn.Module):
             x_seq = torch.cat((x_seq[:, :1, :].expand(-1, self.in_len_add, -1), x_seq), dim = 1)
 
         x_seq = self.enc_value_embedding(x_seq)
-        print('x_seq.shape: ', x_seq.shape)
-        print('self.enc_pos_embedding.shape: ', self.enc_pos_embedding.shape)
         x_seq += self.enc_pos_embedding
         x_seq = self.pre_norm(x_seq)
 
