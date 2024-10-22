@@ -185,12 +185,18 @@ if __name__ == '__main__':
     state_dict = model.module.state_dict() if isinstance(model, DataParallel) else model.state_dict()
     torch.save(state_dict, path+'/'+'checkpoint.pth')
 
+# plot loss
+print(train_loss_total)
+print(vali_loss_total)
+print(len(train_loss_total))
+print(len(vali_loss_total))
 plt.figure(0,figsize=(20,20))
 x = np.linspace(0, len(train_loss_total)-1, num=len(train_loss_total))
+print(x)
 fig, ax1 = plt.subplots()
 # ax2 = ax1.twinx()
-ax1.semilogy(x, train_loss_total,label='Training loss')
-ax1.semilogy(x, vali_loss_total,label='Validation loss')
+ax1.semilogy(x, train_loss_total, label='Training loss')
+ax1.semilogy(x, vali_loss_total, label='Validation loss')
 plt.legend(loc='upper right',fancybox=False, framealpha=1, facecolor='white', edgecolor='black')
 # ax2.plot(x, np.array(history['lr']),'g',label='Learning rate')
 ax1.set_xlabel('Epochs')
@@ -201,26 +207,33 @@ ax1.legend(loc='upper left',fancybox=False, framealpha=1, facecolor='white', edg
 # ax2.legend(loc='upper right',fancybox=False, framealpha=1, facecolor='white', edgecolor='black')
 plt.savefig('figs/loss.png', dpi=300)
 plt.show()
+plt.close
 
+# # plot prediction
+# plt.figure(1,figsize=(10,10))
+# plt.clf()
+# for i in range(config['circuit']['ninput']):
+#     if str(i) in config['model']['norminputs']:
+#         m1,m2=config['model']['norminputs'][str(i)]
+#     else:
+#         m1,m2=[0,1]
+#     plt.subplot(config['circuit']['ninput']+config['circuit']['noutput'],1,i+1)
+#     plt.plot(t, valid_tensor['inset'][ns,:,i]*(m2-m1)+m1,linewidth=4)
+#     plt.ylabel('Vin%d [V]'%(i+1),fontweight='bold')
+#     plt.grid()
+# for i in range(config['circuit']['noutput']):
+#     if str(i) in config['model']['normoutputs']:
+#         m1,m2=config['model']['normoutputs'][str(i)]
+#     else:
+#         m1,m2=[0,1]
+#     plt.subplot(config['circuit']['ninput']+config['circuit']['noutput'],1,config['circuit']['ninput']+i+1)
+#     plt.plot(t,(valid_tensor['outset'][ns,:,i]*(m2-m1)+m1),linewidth=4,label='True',zorder=2)
+#     plt.scatter(t,(outpred[ns,:,i]*(m2-m1)+m1),s=50,c='darkorange',label='Pred',zorder=1)
+#     # plt.plot(t,valid_tensor['outset'][ns*config['circuit']['agestep']+config['circuit']['agestep']-1,:,i],linewidth=4,label='True (10)')
+#     # plt.plot(t,outpred[ns*config['circuit']['agestep']+config['circuit']['agestep']-1,:,i],'--',linewidth=4,label='Pred (10)')
+#     plt.ylabel('Vout%d [V]'%(i+1),fontweight='bold')
+#     plt.grid()
+# #plt.ylim([-0.01,1.3])
+# plt.legend(loc='best',fancybox=True, framealpha=1, facecolor='white', edgecolor='black',ncol=1,prop={'size': 20})
 
-# model,history=RNNcustom.train(model,config,config['training']['maxepoch'],dataloader,valid_tensor,optimizer,scheduler,loss,savedir,init,device,freshmodel)
-# if 't' in valid_tensor:
-#     invalid={'inset':valid_tensor['inset'], 't':valid_tensor['t']}
-# else:
-#     invalid=valid_tensor['inset']
-# with torch.no_grad():
-#     outpred=model(invalid)
-# NRMSE_list.append(data.NRMSE(outpred.tolist(),valid_tensor['outset'].tolist()))
-
-
-
-# trainer = Trainer(
-#     max_epochs = config['training']['maxepoch'],
-#     precision= 32,
-#     accelerator='gpu' if torch.cuda.is_available() else 'cpu',
-#     devices = 1,
-#     # devices = 1 if torch.cuda.is_available() else None,
-#     # precision=16 if config['training']['mixed_precision'] else 32,
-# )
-
-# trainer.fit(model=crossformer_model, datamodule=datamodule)
+# plt.xlabel('Time [ns]',fontweight='bold')
