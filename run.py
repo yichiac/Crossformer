@@ -107,7 +107,7 @@ l = val_dataset['outset'].size(1)
 
 def vali(model, vali_loader, l):
     model.eval()
-    total_loss = []
+    total_loss_all = []
     with torch.no_grad():
         for sample in vali_loader:
             insample = sample['inset'][:,0:l,:].to(device)
@@ -118,9 +118,9 @@ def vali(model, vali_loader, l):
             loss = NRMSE(pred, true)
             total_loss.append(loss.item())
 
-    total_loss = np.average(total_loss)
+    total_loss = np.average(total_loss_all)
     model.train()
-    return total_loss
+    return total_loss, total_loss_all
 
 
 def NRMSE(prediction, target):
@@ -134,7 +134,7 @@ if __name__ == '__main__':
     for epoch in range(0, config['training']['maxepoch']+1):
         time_now = time.time()
         iter_count = 0
-        train_loss = []
+        train_loss_total = []
 
         model.train()
         epoch_time = time.time()
@@ -146,7 +146,7 @@ if __name__ == '__main__':
             optimizer.zero_grad()
             pred = model(insample)
             loss = NRMSE(pred, true)
-            train_loss.append(loss.item())
+            train_loss_total.append(loss.item())
 
             if (i+1) % 5==0:
                 print("\titers: {0}, epoch: {1} | loss: {2:.7f}".format(i + 1, epoch + 1, loss.item()))
@@ -160,8 +160,8 @@ if __name__ == '__main__':
             optimizer.step()
 
         print("Epoch: {} cost time: {}".format(epoch+1, time.time()-epoch_time))
-        train_loss = np.average(train_loss)
-        vali_loss = vali(model, val_loader, l)
+        train_loss = np.average(train_loss_total)
+        vali_loss, vali_loss_total = vali(model, val_loader, l)
         # test_loss = vali(model, test_loader, l)
         # test_loss = vali(model, val_loader, l)
 
@@ -182,11 +182,11 @@ if __name__ == '__main__':
     torch.save(state_dict, path+'/'+'checkpoint.pth')
 
 plt.figure(0,figsize=(20,20))
-x = np.linspace(0, len(train_loss)-1, num=len(train_loss))
+x = np.linspace(0, len(train_loss_total)-1, num=len(train_loss_total))
 fig, ax1 = plt.subplots()
 # ax2 = ax1.twinx()
-ax1.semilogy(x, train_loss,label='Training loss')
-ax1.semilogy(x, vali_loss,label='Validation loss')
+ax1.semilogy(x, train_loss_total,label='Training loss')
+ax1.semilogy(x, vali_loss_total,label='Validation loss')
 plt.legend(loc='upper right',fancybox=False, framealpha=1, facecolor='white', edgecolor='black')
 # ax2.plot(x, np.array(history['lr']),'g',label='Learning rate')
 ax1.set_xlabel('Epochs')
