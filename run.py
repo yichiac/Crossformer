@@ -248,5 +248,5 @@ for i in range(config['circuit']['noutput']):
     plt.grid()
 #plt.ylim([-0.01,1.3])
 plt.legend(loc='best',fancybox=True, framealpha=1, facecolor='white', edgecolor='black',ncol=1,prop={'size': 20})
-
 plt.xlabel('Time [ns]',fontweight='bold')
+plt.savefig('figs/prediction.png', dpi=300)
