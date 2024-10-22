@@ -3,13 +3,13 @@ from utils.tools import EarlyStopping, adjust_learning_rate
 import models.data_process as data
 from data import CircuitDataModule
 
-import numpy as np
-
 import torch
 from torch import optim
 import torch.nn as nn
 from torch.nn import DataParallel
 
+import matplotlib.pyplot as plt
+import numpy as np
 import json
 import time
 import os
@@ -181,6 +181,22 @@ if __name__ == '__main__':
     state_dict = model.module.state_dict() if isinstance(model, DataParallel) else model.state_dict()
     torch.save(state_dict, path+'/'+'checkpoint.pth')
 
+plt.figure(0,figsize=(20,20))
+x = np.linspace(0, len(train_loss)-1, num=len(train_loss))
+fig, ax1 = plt.subplots()
+# ax2 = ax1.twinx()
+ax1.semilogy(x, train_loss,label='Training loss')
+ax1.semilogy(x, vali_loss,label='Validation loss')
+plt.legend(loc='upper right',fancybox=False, framealpha=1, facecolor='white', edgecolor='black')
+# ax2.plot(x, np.array(history['lr']),'g',label='Learning rate')
+ax1.set_xlabel('Epochs')
+ax1.set_ylabel('Loss')
+ax1.set_ylim(0.0001,0.5)
+# ax2.set_ylabel('Learning rate')
+ax1.legend(loc='upper left',fancybox=False, framealpha=1, facecolor='white', edgecolor='black')
+# ax2.legend(loc='upper right',fancybox=False, framealpha=1, facecolor='white', edgecolor='black')
+plt.savefig('figs/loss.png', dpi=300)
+plt.show()
 
 
 # model,history=RNNcustom.train(model,config,config['training']['maxepoch'],dataloader,valid_tensor,optimizer,scheduler,loss,savedir,init,device,freshmodel)
