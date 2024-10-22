@@ -116,7 +116,7 @@ def vali(model, vali_loader, l):
             true = sample['outset'][:,0:l,:].to(device)
             pred = model(insample)
             loss = NRMSE(pred, true)
-            total_loss.append(loss.item())
+            total_loss_all.append(loss.item())
 
     total_loss = np.average(total_loss_all)
     model.train()
