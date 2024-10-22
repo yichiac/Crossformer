@@ -223,8 +223,10 @@ with torch.no_grad():
 
 t = np.linspace(0,config['circuit']['hRNN']*1e9*(config['circuit']['nstep']-1),config['circuit']['nstep'])
 ns = 17
-plt.figure(1,figsize=(10,10))
+plt.figure(1,figsize=(10,12))
 plt.clf()
+plt.subplots_adjust(hspace=0.4)
+
 for i in range(config['circuit']['ninput']):
     if str(i) in config['model']['norminputs']:
         m1,m2=config['model']['norminputs'][str(i)]
@@ -234,6 +236,7 @@ for i in range(config['circuit']['ninput']):
     plt.plot(t, valid_tensor['inset'][ns,:,i].cpu().numpy()*(m2-m1)+m1,linewidth=4)
     plt.ylabel('Vin%d [V]'%(i+1),fontweight='bold')
     plt.grid()
+
 for i in range(config['circuit']['noutput']):
     if str(i) in config['model']['normoutputs']:
         m1,m2=config['model']['normoutputs'][str(i)]
@@ -241,12 +244,16 @@ for i in range(config['circuit']['noutput']):
         m1,m2=[0,1]
     plt.subplot(config['circuit']['ninput']+config['circuit']['noutput'],1,config['circuit']['ninput']+i+1)
     plt.plot(t,(valid_tensor['outset'][ns,:,i].cpu().numpy()*(m2-m1)+m1),linewidth=4,label='True',zorder=2)
-    plt.scatter(t, (outpred[ns,:,i].cpu().numpy()*(m2-m1)+m1),s=50,c='darkorange',label='Pred',zorder=1)
+    plt.scatter(t, (outpred[ns,:,i].cpu().numpy()*(m2-m1)+m1),s=20,c='darkorange',label='Pred',zorder=1)
     # plt.plot(t,valid_tensor['outset'][ns*config['circuit']['agestep']+config['circuit']['agestep']-1,:,i],linewidth=4,label='True (10)')
     # plt.plot(t,outpred[ns*config['circuit']['agestep']+config['circuit']['agestep']-1,:,i],'--',linewidth=4,label='Pred (10)')
     plt.ylabel('Vout%d [V]'%(i+1),fontweight='bold')
     plt.grid()
-#plt.ylim([-0.01,1.3])
-plt.legend(loc='best',fancybox=True, framealpha=1, facecolor='white', edgecolor='black',ncol=1,prop={'size': 20})
+# plt.ylim([-0.01,1.3])
+# plt.legend(loc='best',fancybox=True, framealpha=1, facecolor='white', edgecolor='black',ncol=1,prop={'size': 20})
+plt.legend(loc='lower right', bbox_to_anchor=(0.98, -0.2),
+          fancybox=True, framealpha=1, facecolor='white',
+          edgecolor='black', ncol=2, prop={'size': 12})
 plt.xlabel('Time [ns]',fontweight='bold')
-plt.savefig('figs/prediction.png', dpi=300)
+plt.tight_layout()
+plt.savefig('figs/prediction.png', dpi=300, bbox_inches='tight')
