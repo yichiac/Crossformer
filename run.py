@@ -231,7 +231,7 @@ for i in range(config['circuit']['ninput']):
     else:
         m1,m2=[0,1]
     plt.subplot(config['circuit']['ninput']+config['circuit']['noutput'],1,i+1)
-    plt.plot(t, valid_tensor['inset'][ns,:,i]*(m2-m1)+m1,linewidth=4)
+    plt.plot(t, valid_tensor['inset'][ns,:,i].cpu().numpy()*(m2-m1)+m1,linewidth=4)
     plt.ylabel('Vin%d [V]'%(i+1),fontweight='bold')
     plt.grid()
 for i in range(config['circuit']['noutput']):
@@ -240,8 +240,8 @@ for i in range(config['circuit']['noutput']):
     else:
         m1,m2=[0,1]
     plt.subplot(config['circuit']['ninput']+config['circuit']['noutput'],1,config['circuit']['ninput']+i+1)
-    plt.plot(t,(valid_tensor['outset'][ns,:,i]*(m2-m1)+m1),linewidth=4,label='True',zorder=2)
-    plt.scatter(t, (outpred[ns,:,i]*(m2-m1)+m1),s=50,c='darkorange',label='Pred',zorder=1)
+    plt.plot(t,(valid_tensor['outset'][ns,:,i].cpu().numpy()*(m2-m1)+m1),linewidth=4,label='True',zorder=2)
+    plt.scatter(t, (outpred[ns,:,i].cpu().numpy()*(m2-m1)+m1),s=50,c='darkorange',label='Pred',zorder=1)
     # plt.plot(t,valid_tensor['outset'][ns*config['circuit']['agestep']+config['circuit']['agestep']-1,:,i],linewidth=4,label='True (10)')
     # plt.plot(t,outpred[ns*config['circuit']['agestep']+config['circuit']['agestep']-1,:,i],'--',linewidth=4,label='Pred (10)')
     plt.ylabel('Vout%d [V]'%(i+1),fontweight='bold')
