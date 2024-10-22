@@ -200,13 +200,12 @@ ax1.plot(x, vali_loss_total, label='Validation loss')
 
 ax1.set_xlabel('Epochs')
 ax1.set_ylabel('Loss')
-ax1.set_ylim(1e-4, 1)
+# ax1.set_ylim(1e-4, 1)
 ax1.legend(loc='upper left', fancybox=False, framealpha=1, facecolor='white', edgecolor='black')
 
 plt.savefig('figs/loss.png', dpi=300)
 plt.show()
 plt.close
-
 
 # outpred = []
 # model.eval()
