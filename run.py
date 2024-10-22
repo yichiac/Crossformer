@@ -9,6 +9,7 @@ import torch.nn as nn
 from torch.nn import DataParallel
 
 import matplotlib.pyplot as plt
+from matplotlib.ticker import FormatStrFormatter
 import numpy as np
 import json
 import time
@@ -209,23 +210,16 @@ plt.close
 
 
 # plot prediction
-
-# outpred = []
-# model.eval()
-# with torch.no_grad():
-#     for sample in val_loader:
-#         insample = sample['inset'][:,0:l,:].to(device)
-#         pred = model(insample)
-
 model.eval()
 with torch.no_grad():
     outpred=model(valid_tensor['inset'])
 
 t = np.linspace(0,config['circuit']['hRNN']*1e9*(config['circuit']['nstep']-1),config['circuit']['nstep'])
 ns = 17
-plt.figure(1,figsize=(10,12))
+plt.figure(1, figsize=(10, 16))
 plt.clf()
-plt.subplots_adjust(hspace=0.4)
+
+plt.subplots_adjust(hspace=0.5)
 
 for i in range(config['circuit']['ninput']):
     if str(i) in config['model']['norminputs']:
@@ -236,6 +230,7 @@ for i in range(config['circuit']['ninput']):
     plt.plot(t, valid_tensor['inset'][ns,:,i].cpu().numpy()*(m2-m1)+m1,linewidth=4)
     plt.ylabel('Vin%d [V]'%(i+1),fontweight='bold')
     plt.grid()
+    plt.gca().yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
 
 for i in range(config['circuit']['noutput']):
     if str(i) in config['model']['normoutputs']:
@@ -249,11 +244,14 @@ for i in range(config['circuit']['noutput']):
     # plt.plot(t,outpred[ns*config['circuit']['agestep']+config['circuit']['agestep']-1,:,i],'--',linewidth=4,label='Pred (10)')
     plt.ylabel('Vout%d [V]'%(i+1),fontweight='bold')
     plt.grid()
-# plt.ylim([-0.01,1.3])
-# plt.legend(loc='best',fancybox=True, framealpha=1, facecolor='white', edgecolor='black',ncol=1,prop={'size': 20})
-plt.legend(loc='lower right', bbox_to_anchor=(0.98, -0.2),
-          fancybox=True, framealpha=1, facecolor='white',
-          edgecolor='black', ncol=2, prop={'size': 12})
+    plt.gca().yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
+
+plt.legend(bbox_to_anchor=(0.5, -0.2), loc='upper center',
+           fancybox=True, framealpha=1, facecolor='white',
+           edgecolor='black', ncol=2, prop={'size': 12})
 plt.xlabel('Time [ns]',fontweight='bold')
 plt.tight_layout()
 plt.savefig('figs/prediction.png', dpi=300, bbox_inches='tight')
+
+# plt.ylim([-0.01,1.3])
+# plt.legend(loc='best',fancybox=True, framealpha=1, facecolor='white', edgecolor='black',ncol=1,prop={'size': 20})
