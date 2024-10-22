@@ -246,12 +246,12 @@ for i in range(config['circuit']['noutput']):
     plt.grid()
     plt.gca().yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
 
-plt.legend(bbox_to_anchor=(0.5, -0.2), loc='upper center',
+plt.legend(bbox_to_anchor=(0.5, -0.4), loc='upper center',
            fancybox=True, framealpha=1, facecolor='white',
            edgecolor='black', ncol=2, prop={'size': 12})
 plt.xlabel('Time [ns]',fontweight='bold')
 plt.tight_layout()
-plt.savefig('figs/prediction.png', dpi=300, bbox_inches='tight')
+plt.savefig('figs/prediction.png', dpi=300, bbox_inches='tight', pad_inches=0.5)
 
 # plt.ylim([-0.01,1.3])
 # plt.legend(loc='best',fancybox=True, framealpha=1, facecolor='white', edgecolor='black',ncol=1,prop={'size': 20})
