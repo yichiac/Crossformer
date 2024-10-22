@@ -47,6 +47,12 @@ rawdata['outset'],config['model']['normoutputs']=data.normalize(rawdata['outset'
 train_dataset, val_dataset= data.split(rawdata, rate=0.8, shuffle=False, aging=config['circuit']['aging'], \
                             agestep=config['circuit']['agestep'])
 
+# for plotting
+train_tensor,valid_tensor=[{},{}]
+for key in train_dataset:
+    train_tensor[key]=torch.tensor(train_dataset[key], device=device)
+    valid_tensor[key]=torch.tensor(val_dataset[key], device=device)
+
 datamodule = CircuitDataModule(train_dataset=train_dataset, val_dataset=val_dataset, batch_size=16, num_workers=4, device=torch.device('cpu'))
 datamodule.setup()
 train_loader = datamodule.train_dataloader()
@@ -186,30 +192,37 @@ if __name__ == '__main__':
     torch.save(state_dict, path+'/'+'checkpoint.pth')
 
 # plot loss
-print(train_loss_total)
-print(vali_loss_total)
-print(len(train_loss_total))
-print(len(vali_loss_total))
-plt.figure(0,figsize=(20,20))
+fig, ax1 = plt.subplots(figsize=(20, 20))
 x = np.linspace(0, len(train_loss_total)-1, num=len(train_loss_total))
-print(x)
-fig, ax1 = plt.subplots()
-# ax2 = ax1.twinx()
+
 ax1.semilogy(x, train_loss_total, label='Training loss')
 ax1.semilogy(x, vali_loss_total, label='Validation loss')
-plt.legend(loc='upper right',fancybox=False, framealpha=1, facecolor='white', edgecolor='black')
-# ax2.plot(x, np.array(history['lr']),'g',label='Learning rate')
+
 ax1.set_xlabel('Epochs')
 ax1.set_ylabel('Loss')
-ax1.set_ylim(0.0001,0.5)
+ax1.set_ylim(1e-4, 1)
+ax1.legend(loc='upper left', fancybox=False, framealpha=1, facecolor='white', edgecolor='black')
+
+# ax2 = ax1.twinx()
 # ax2.set_ylabel('Learning rate')
-ax1.legend(loc='upper left',fancybox=False, framealpha=1, facecolor='white', edgecolor='black')
+# plt.legend(loc='upper right',fancybox=False, framealpha=1, facecolor='white', edgecolor='black')
+# ax2.plot(x, np.array(history['lr']),'g',label='Learning rate')
 # ax2.legend(loc='upper right',fancybox=False, framealpha=1, facecolor='white', edgecolor='black')
+
 plt.savefig('figs/loss.png', dpi=300)
 plt.show()
 plt.close
 
+
+# model.eval()
+# with torch.no_grad():
+#     for sample in vali_loader:
+#         insample = sample['inset'][:,0:l,:].to(device)
+#         pred = model(insample)
+
 # # plot prediction
+# t = np.linspace(0,config['circuit']['hRNN']*1e9*(config['circuit']['nstep']-1),config['circuit']['nstep'])
+# ns = 17
 # plt.figure(1,figsize=(10,10))
 # plt.clf()
 # for i in range(config['circuit']['ninput']):
@@ -228,7 +241,7 @@ plt.close
 #         m1,m2=[0,1]
 #     plt.subplot(config['circuit']['ninput']+config['circuit']['noutput'],1,config['circuit']['ninput']+i+1)
 #     plt.plot(t,(valid_tensor['outset'][ns,:,i]*(m2-m1)+m1),linewidth=4,label='True',zorder=2)
-#     plt.scatter(t,(outpred[ns,:,i]*(m2-m1)+m1),s=50,c='darkorange',label='Pred',zorder=1)
+#     plt.scatter(t, (outpred[ns,:,i]*(m2-m1)+m1),s=50,c='darkorange',label='Pred',zorder=1)
 #     # plt.plot(t,valid_tensor['outset'][ns*config['circuit']['agestep']+config['circuit']['agestep']-1,:,i],linewidth=4,label='True (10)')
 #     # plt.plot(t,outpred[ns*config['circuit']['agestep']+config['circuit']['agestep']-1,:,i],'--',linewidth=4,label='Pred (10)')
 #     plt.ylabel('Vout%d [V]'%(i+1),fontweight='bold')
