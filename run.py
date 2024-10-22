@@ -195,28 +195,23 @@ if __name__ == '__main__':
 fig, ax1 = plt.subplots(figsize=(20, 20))
 x = np.linspace(0, len(train_loss_total)-1, num=len(train_loss_total))
 
-ax1.semilogy(x, train_loss_total, label='Training loss')
-ax1.semilogy(x, vali_loss_total, label='Validation loss')
+ax1.plot(x, train_loss_total, label='Training loss')
+ax1.plot(x, vali_loss_total, label='Validation loss')
 
 ax1.set_xlabel('Epochs')
 ax1.set_ylabel('Loss')
 ax1.set_ylim(1e-4, 1)
 ax1.legend(loc='upper left', fancybox=False, framealpha=1, facecolor='white', edgecolor='black')
 
-# ax2 = ax1.twinx()
-# ax2.set_ylabel('Learning rate')
-# plt.legend(loc='upper right',fancybox=False, framealpha=1, facecolor='white', edgecolor='black')
-# ax2.plot(x, np.array(history['lr']),'g',label='Learning rate')
-# ax2.legend(loc='upper right',fancybox=False, framealpha=1, facecolor='white', edgecolor='black')
-
 plt.savefig('figs/loss.png', dpi=300)
 plt.show()
 plt.close
 
 
+# outpred = []
 # model.eval()
 # with torch.no_grad():
-#     for sample in vali_loader:
+#     for sample in val_loader:
 #         insample = sample['inset'][:,0:l,:].to(device)
 #         pred = model(insample)
 
