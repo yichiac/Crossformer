@@ -103,9 +103,9 @@ model.to(device)
 
 train_steps = len(train_loader)
 
-early_stopping = EarlyStopping(patience=3, verbose=True) #default patience=3 in args
-optimizer = optim.RMSprop(model.parameters(), lr=0.001, momentum=0.9, weight_decay=1e-7, eps=0.0001) # might need to change the optimizer later
-model_optim = optim.Adam(model.parameters(), lr=1e-4)
+early_stopping = EarlyStopping(patience=10, verbose=True)
+# optimizer = optim.RMSprop(model.parameters(), lr=0.001, momentum=0.9, weight_decay=1e-7, eps=0.0001) # might need to change the optimizer later
+optimizer = optim.Adam(model.parameters(), lr=1e-4)
 # savedir='model/'+config['circuit']['dev']+'_'+config['circuit']['sel']+'_gru'+str(i)
 
 l = val_dataset['outset'].size(1)
@@ -184,7 +184,7 @@ if __name__ == '__main__':
             print("Early stopping")
             break
 
-        adjust_learning_rate(model_optim, epoch+1)
+        adjust_learning_rate(optimizer, epoch+1)
 
     best_model_path = path+'/'+'checkpoint.pth'
     model.load_state_dict(torch.load(best_model_path))
