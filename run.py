@@ -192,7 +192,7 @@ if __name__ == '__main__':
     torch.save(state_dict, path+'/'+'checkpoint.pth')
 
 # plot loss
-fig, ax1 = plt.subplots(figsize=(20, 20))
+fig, ax1 = plt.subplots()
 x = np.linspace(0, len(train_loss_total)-1, num=len(train_loss_total))
 
 ax1.plot(x, train_loss_total, label='Training loss')
@@ -201,11 +201,14 @@ ax1.plot(x, vali_loss_total, label='Validation loss')
 ax1.set_xlabel('Epochs')
 ax1.set_ylabel('Loss')
 # ax1.set_ylim(1e-4, 1)
-ax1.legend(loc='upper left', fancybox=False, framealpha=1, facecolor='white', edgecolor='black')
+ax1.legend(loc='upper right', fancybox=False, framealpha=1, facecolor='white', edgecolor='black')
 
 plt.savefig('figs/loss.png', dpi=300)
 plt.show()
 plt.close
+
+
+# plot prediction
 
 # outpred = []
 # model.eval()
@@ -214,33 +217,36 @@ plt.close
 #         insample = sample['inset'][:,0:l,:].to(device)
 #         pred = model(insample)
 
-# # plot prediction
-# t = np.linspace(0,config['circuit']['hRNN']*1e9*(config['circuit']['nstep']-1),config['circuit']['nstep'])
-# ns = 17
-# plt.figure(1,figsize=(10,10))
-# plt.clf()
-# for i in range(config['circuit']['ninput']):
-#     if str(i) in config['model']['norminputs']:
-#         m1,m2=config['model']['norminputs'][str(i)]
-#     else:
-#         m1,m2=[0,1]
-#     plt.subplot(config['circuit']['ninput']+config['circuit']['noutput'],1,i+1)
-#     plt.plot(t, valid_tensor['inset'][ns,:,i]*(m2-m1)+m1,linewidth=4)
-#     plt.ylabel('Vin%d [V]'%(i+1),fontweight='bold')
-#     plt.grid()
-# for i in range(config['circuit']['noutput']):
-#     if str(i) in config['model']['normoutputs']:
-#         m1,m2=config['model']['normoutputs'][str(i)]
-#     else:
-#         m1,m2=[0,1]
-#     plt.subplot(config['circuit']['ninput']+config['circuit']['noutput'],1,config['circuit']['ninput']+i+1)
-#     plt.plot(t,(valid_tensor['outset'][ns,:,i]*(m2-m1)+m1),linewidth=4,label='True',zorder=2)
-#     plt.scatter(t, (outpred[ns,:,i]*(m2-m1)+m1),s=50,c='darkorange',label='Pred',zorder=1)
-#     # plt.plot(t,valid_tensor['outset'][ns*config['circuit']['agestep']+config['circuit']['agestep']-1,:,i],linewidth=4,label='True (10)')
-#     # plt.plot(t,outpred[ns*config['circuit']['agestep']+config['circuit']['agestep']-1,:,i],'--',linewidth=4,label='Pred (10)')
-#     plt.ylabel('Vout%d [V]'%(i+1),fontweight='bold')
-#     plt.grid()
-# #plt.ylim([-0.01,1.3])
-# plt.legend(loc='best',fancybox=True, framealpha=1, facecolor='white', edgecolor='black',ncol=1,prop={'size': 20})
+model.eval()
+with torch.no_grad():
+    outpred=model(valid_tensor['inset'])
 
-# plt.xlabel('Time [ns]',fontweight='bold')
+t = np.linspace(0,config['circuit']['hRNN']*1e9*(config['circuit']['nstep']-1),config['circuit']['nstep'])
+ns = 17
+plt.figure(1,figsize=(10,10))
+plt.clf()
+for i in range(config['circuit']['ninput']):
+    if str(i) in config['model']['norminputs']:
+        m1,m2=config['model']['norminputs'][str(i)]
+    else:
+        m1,m2=[0,1]
+    plt.subplot(config['circuit']['ninput']+config['circuit']['noutput'],1,i+1)
+    plt.plot(t, valid_tensor['inset'][ns,:,i]*(m2-m1)+m1,linewidth=4)
+    plt.ylabel('Vin%d [V]'%(i+1),fontweight='bold')
+    plt.grid()
+for i in range(config['circuit']['noutput']):
+    if str(i) in config['model']['normoutputs']:
+        m1,m2=config['model']['normoutputs'][str(i)]
+    else:
+        m1,m2=[0,1]
+    plt.subplot(config['circuit']['ninput']+config['circuit']['noutput'],1,config['circuit']['ninput']+i+1)
+    plt.plot(t,(valid_tensor['outset'][ns,:,i]*(m2-m1)+m1),linewidth=4,label='True',zorder=2)
+    plt.scatter(t, (outpred[ns,:,i]*(m2-m1)+m1),s=50,c='darkorange',label='Pred',zorder=1)
+    # plt.plot(t,valid_tensor['outset'][ns*config['circuit']['agestep']+config['circuit']['agestep']-1,:,i],linewidth=4,label='True (10)')
+    # plt.plot(t,outpred[ns*config['circuit']['agestep']+config['circuit']['agestep']-1,:,i],'--',linewidth=4,label='Pred (10)')
+    plt.ylabel('Vout%d [V]'%(i+1),fontweight='bold')
+    plt.grid()
+#plt.ylim([-0.01,1.3])
+plt.legend(loc='best',fancybox=True, framealpha=1, facecolor='white', edgecolor='black',ncol=1,prop={'size': 20})
+
+plt.xlabel('Time [ns]',fontweight='bold')
