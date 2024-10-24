@@ -93,15 +93,11 @@ class CropYieldDataModule(pl.LightningDataModule):
             'nir': 'satellite/nir/mean/doy_',
         }
 
-        # Normalize all variables based on their column prefixes
         for var, prefix in variable_groups.items():
             cols = [col for col in df.columns if prefix in col]
             df = min_max_normalize(df, cols)
 
         df['YIELD'] = (df['YIELD'] - df['YIELD'].min()) / (df['YIELD'].max() - df['YIELD'].min())
-        # soil_vars = ['om', 'clay', 'sand', 'theta_r', 'theta_s']
-        # static_cols = [f'soil/{_var}/mean/static' for _var in soil_vars]
-        # for static_col in static_cols:
         for static_col in self.static_cols:
             df[static_col] = (df[static_col] - df[static_col].min()) / (df[static_col].max() - df[static_col].min())
         return df
@@ -123,8 +119,6 @@ class CropYieldDataModule(pl.LightningDataModule):
         ]
         # self.meta_cols = self.meta_vars
         self.target_col = ['YIELD']
-        # self.n_features = len(self.satellite_vars + self.weather_vars)
-        # self.n_soil_features = len(self.soil_vars)
         self.df = self.normalization(self.df)
 
     def setup(self, stage=None):
