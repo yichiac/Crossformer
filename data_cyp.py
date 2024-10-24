@@ -2,7 +2,7 @@ import lightning as pl
 import torch
 from torch.utils.data import DataLoader, Dataset
 import pandas as pd
-import geopandas as gpd
+# import geopandas as gpd
 import os
 
 class CropYieldDataset(Dataset):
