@@ -7,8 +7,6 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=32
 #SBATCH --gres=gpu:A100:1
-#SBATCH --output=.experiment-logs/o%j
-#SBATCH --error=.experiment-logs/e%j
 #SBATCH --mail-user=yichia3@illinois.edu
 #SBATCH --mail-type=END
 #SBATCH --mail-type=FAIL

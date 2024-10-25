@@ -155,6 +155,7 @@ def vali(model, vali_loader, l):
 #     NRMSerror = torch.mean(torch.sqrt(error / norm))
 #     return NRMSerror
 
+print('start training')
 
 if __name__ == '__main__':
     train_loss_total = []
@@ -167,7 +168,6 @@ if __name__ == '__main__':
         model.train()
         epoch_time = time.time()
         for sample in train_loader:
-            # l = sample[0].size(1)
             insample = sample[0][:,0:l,:].to(device)
             true = sample[2].to(device)
             optimizer.zero_grad()
