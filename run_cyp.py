@@ -139,12 +139,13 @@ l = args['in_len']
 def vali(model, vali_loader, l):
     model.eval()
     total_loss = []
+    criterion = nn.MSELoss()
     with torch.no_grad():
         for sample in vali_loader:
             insample = sample[0][:,0:l,:].to(device)
             true = sample[2].to(device)
             pred = model(insample)
-            loss = compute_loss(pred, true)
+            loss = torch.sqrt(criterion(pred, true))
             total_loss.append(loss.item())
 
     total_loss = np.average(total_loss)
