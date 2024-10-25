@@ -75,6 +75,7 @@ datamodule.prepare_data()
 datamodule.setup()
 train_loader = datamodule.train_dataloader()
 val_loader = datamodule.val_dataloader()
+# test_loader = datamodule.test_dataloader()
 
 args = {'data_dim': 7,
         'in_len': 240,
@@ -228,9 +229,26 @@ plt.close
 
 
 # plot prediction
-# model.eval()
-# with torch.no_grad():
-#     outpred=model(valid_tensor['inset'])
+model.eval()
+predictions = []
+true_labels = []
+# train_predictions = []
+# train_true_labels = []
+
+with torch.no_grad():
+    for sample in val_loader:
+        insample = sample[0][:,0:l,:].to(device)
+        true = sample[2].to(device)
+        pred = model(insample)
+        predictions.append(pred)
+        true_labels.append(true)
+
+    # for sample in train_loader:
+    #     insample = sample[0][:,0:l,:].to(device)
+    #     true = sample[2].to(device)
+    #     pred = model(insample)
+    #     train_predictions.append(pred)
+    #     train_true_labels.append(true)
 
 # t = np.linspace(0,config['circuit']['hRNN']*1e9*(config['circuit']['nstep']-1),config['circuit']['nstep'])
 # ns = 17
