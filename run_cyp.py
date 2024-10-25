@@ -1,9 +1,7 @@
 from cross_models.cross_former import Crossformer, CrossformerCircuit
 from utils.tools import EarlyStopping, adjust_learning_rate
 import models.data_process as data
-from data import CircuitDataModule
-
-from data_cyp import CropYieldDataset, CropYieldDataModule
+from data_cyp import CropYieldDataModule
 
 import torch
 from torch import optim
@@ -98,7 +96,7 @@ args = {'data_dim': 7,
 #                 factor=10, d_model=256, d_ff=512, n_heads=8, e_layers=3,
 #                 dropout=0.0, baseline = False) #, device=torch.device('cuda:0'))
 
-setting = 'Crossformer_{}_il{}_ol{}_sl{}_win{}_fa{}_dm{}_nh{}_el{}_itr{}'.format('circuit',
+setting = 'Crossformer_{}_il{}_ol{}_sl{}_win{}_fa{}_dm{}_nh{}_el{}_itr{}'.format('cyp',
             args['in_len'], args['out_len'], args['seg_len'], args['win_size'], args['factor'],
             args['d_model'], args['n_heads'], args['e_layers'], args['iter'])
 path = os.path.join('./checkpoints/', setting)
@@ -225,6 +223,7 @@ plt.close
 
 
 # plot prediction
+print('start plotting prediction')
 model.eval()
 predictions = []
 true_labels = []
