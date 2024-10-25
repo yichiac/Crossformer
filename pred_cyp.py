@@ -85,7 +85,7 @@ l = args['in_len']
 # plot prediction
 checkpoint_path = '/home/yichia3/Crossformer/checkpoints/Crossformer_circuit_il240_ol1_sl6_win4_fa10_dm256_nh8_el3_itr1/checkpoint.pth'
 checkpoint = torch.load(checkpoint_path)
-model.load_state_dict(checkpoint['model_state_dict'], strict=True)
+model.load_state_dict(checkpoint, strict=True)
 
 model.eval()
 predictions = []
