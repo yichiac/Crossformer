@@ -18,6 +18,8 @@ import numpy as np
 import json
 import time
 import os
+from sklearn.metrics import root_mean_squared_error, r2_score
+
 
 # with open("./config.json") as f:
 #     config=json.load(f)
@@ -225,23 +227,58 @@ plt.close
 model.eval()
 predictions = []
 true_labels = []
-# train_predictions = []
-# train_true_labels = []
+train_predictions = []
+train_true_labels = []
 
 with torch.no_grad():
     for sample in val_loader:
         insample = sample[0][:,0:l,:].to(device)
         true = sample[2].to(device)
         pred = model(insample)
-        predictions.append(pred)
-        true_labels.append(true)
+        predictions.extend(pred.squeeze().tolist())
+        true_labels.extend(true.squeeze().tolist())
 
-    # for sample in train_loader:
-    #     insample = sample[0][:,0:l,:].to(device)
-    #     true = sample[2].to(device)
-    #     pred = model(insample)
-    #     train_predictions.append(pred)
-    #     train_true_labels.append(true)
+    for sample in train_loader:
+        insample = sample[0][:,0:l,:].to(device)
+        true = sample[2].to(device)
+        pred = model(insample)
+        train_predictions.extend(pred.squeeze().tolist())
+        train_true_labels.append(true.squeeze().tolist())
+
+# rescale to original scale
+predictions = np.array(predictions)
+true_labels = np.array(true_labels)
+predictions = predictions*(5000-105) + 105 # max=5000, min=105, minmax scaling
+true_labels = true_labels*(5000-105) + 105
+
+train_predictions = np.array(train_predictions)
+train_true_labels = np.array(train_true_labels)
+train_predictions = train_predictions*(5000-105) + 105 # max=5000, min=105, minmax scaling
+train_true_labels = train_true_labels*(5000-105) + 105
+
+plt.figure(figsize=(12,5))
+ax=plt.subplot(1,2,1)
+plt.plot(true_labels, predictions,'.')
+plt.plot([0,5000],[0,5000],'r--')
+plt.xlabel('Obs')
+plt.ylabel('Model Est.')
+plt.text(0.05,0.95,f'RMSE={root_mean_squared_error(true_labels, predictions):.2f}\nR2={r2_score(true_labels, predictions):.2f}',
+         transform=ax.transAxes, ha='left', va='top')
+plt.title('Validation set')
+
+ax=plt.subplot(1,2,2)
+plt.plot(train_true_labels, train_predictions,'.')
+plt.plot([0,5000],[0,5000],'r--')
+plt.xlabel('Obs')
+plt.ylabel('Model Est.')
+plt.text(0.05,0.95,f'RMSE={root_mean_squared_error(train_true_labels, train_predictions):.2f}\nR2={r2_score(train_true_labels, train_predictions):.2f}',
+         transform=ax.transAxes, ha='left', va='top')
+plt.title('Train set')
+plt.savefig('figs/prediction.png', dpi=300, bbox_inches='tight', pad_inches=0.3)
+plt.close()
+
+
+
 
 # t = np.linspace(0,config['circuit']['hRNN']*1e9*(config['circuit']['nstep']-1),config['circuit']['nstep'])
 # ns = 17
