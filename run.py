@@ -72,16 +72,17 @@ args = {'data_dim': 3,
         'dropout': 0.0,
         'baseline': False,
         'iter': 1,
-        'reproj': 'fc'
+        'reproj': 'fc',
+        'loss': 'NRMSE',
         }
 
 # model = CrossformerCircuit(data_dim=5, in_len=501, out_len=501, seg_len=6, win_size=4,
 #                 factor=10, d_model=256, d_ff=512, n_heads=8, e_layers=3,
 #                 dropout=0.0, baseline = False) #, device=torch.device('cuda:0'))
 
-setting = 'Crossformer_{}_il{}_ol{}_sl{}_win{}_fa{}_dm{}_nh{}_el{}_itr{}_reproj_{}'.format('circuit',
+setting = 'Crossformer_{}_il{}_ol{}_sl{}_win{}_fa{}_dm{}_nh{}_el{}_itr{}_reproj_{}_loss_{}'.format('circuit',
             args['in_len'], args['out_len'], args['seg_len'], args['win_size'], args['factor'],
-            args['d_model'], args['n_heads'], args['e_layers'], args['iter'], args['reproj'])
+            args['d_model'], args['n_heads'], args['e_layers'], args['iter'], args['reproj'], args['loss'])
 path = os.path.join('./checkpoints/', setting)
 if not os.path.exists(path):
     os.makedirs(path)
@@ -193,6 +194,8 @@ if __name__ == '__main__':
     torch.save(state_dict, path+'/'+'checkpoint.pth')
 
 # plot loss
+print('Plotting loss...')
+
 fig, ax1 = plt.subplots()
 x = np.linspace(0, len(train_loss_total)-1, num=len(train_loss_total))
 
@@ -210,6 +213,8 @@ plt.close
 
 
 # plot prediction
+print('Plotting prediction...')
+
 model.eval()
 with torch.no_grad():
     outpred=model(valid_tensor['inset'])
