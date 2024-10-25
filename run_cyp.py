@@ -66,8 +66,8 @@ max_epoch = 100
 
 
 # CYP dataset and dataloader
-# base_path = '/projects/dali/yichia3'
-base_path = 'datasets'
+base_path = '/projects/dali/yichia3'
+# base_path = 'datasets'
 data_path = os.path.join(base_path, 'brazil_soybeans/Brazil_soybeans_data.pkl')
 datamodule = CropYieldDataModule(data_path=data_path)
 
