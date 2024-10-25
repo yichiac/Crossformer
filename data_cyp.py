@@ -76,31 +76,31 @@ class CropYieldDataModule(pl.LightningDataModule):
     #     df = pd.merge(df, centroids, on='CD_MUN', how='left')
     #     return df
 
-    def normalization(self, df):
-        def min_max_normalize(df, columns):
-            min_val = df[columns].stack().min()
-            max_val = df[columns].stack().max()
-            df[columns] = (df[columns] - min_val) / (max_val - min_val)
-            return df
+    # def normalization(self, df):
+    #     def min_max_normalize(df, columns):
+    #         min_val = df[columns].stack().min()
+    #         max_val = df[columns].stack().max()
+    #         df[columns] = (df[columns] - min_val) / (max_val - min_val)
+    #         return df
 
-        variable_groups = {
-            'ppt': 'mswx/ppt/mean/doy_',
-            'tmax': 'mswx/tmax/mean/doy_',
-            'tmin': 'mswx/tmin/mean/doy_',
-            'vpdmax': 'mswx/vpdmax/mean/doy_',
-            'vpdmin': 'mswx/vpdmin/mean/doy_',
-            'green': 'satellite/green/mean/doy_',
-            'nir': 'satellite/nir/mean/doy_',
-        }
+    #     variable_groups = {
+    #         'ppt': 'mswx/ppt/mean/doy_',
+    #         'tmax': 'mswx/tmax/mean/doy_',
+    #         'tmin': 'mswx/tmin/mean/doy_',
+    #         'vpdmax': 'mswx/vpdmax/mean/doy_',
+    #         'vpdmin': 'mswx/vpdmin/mean/doy_',
+    #         'green': 'satellite/green/mean/doy_',
+    #         'nir': 'satellite/nir/mean/doy_',
+    #     }
 
-        for var, prefix in variable_groups.items():
-            cols = [col for col in df.columns if prefix in col]
-            df = min_max_normalize(df, cols)
+    #     for var, prefix in variable_groups.items():
+    #         cols = [col for col in df.columns if prefix in col]
+    #         df = min_max_normalize(df, cols)
 
-        df['YIELD'] = (df['YIELD'] - df['YIELD'].min()) / (df['YIELD'].max() - df['YIELD'].min())
-        for static_col in self.static_cols:
-            df[static_col] = (df[static_col] - df[static_col].min()) / (df[static_col].max() - df[static_col].min())
-        return df
+    #     df['YIELD'] = (df['YIELD'] - df['YIELD'].min()) / (df['YIELD'].max() - df['YIELD'].min())
+    #     for static_col in self.static_cols:
+    #         df[static_col] = (df[static_col] - df[static_col].min()) / (df[static_col].max() - df[static_col].min())
+    #     return df
 
     def prepare_data(self):
         self.df = pd.read_pickle(self.data_path) # load dataset from pickle file
@@ -119,7 +119,7 @@ class CropYieldDataModule(pl.LightningDataModule):
         ]
         # self.meta_cols = self.meta_vars
         self.target_col = ['YIELD']
-        self.df = self.normalization(self.df)
+        # self.df = self.normalization(self.df)
 
     def setup(self, stage=None):
         if stage == 'fit' or stage is None:
