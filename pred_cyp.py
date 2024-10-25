@@ -77,12 +77,9 @@ train_steps = len(train_loader)
 early_stopping = EarlyStopping(patience=10, verbose=True)
 # optimizer = optim.RMSprop(model.parameters(), lr=0.001, momentum=0.9, weight_decay=1e-7, eps=0.0001) # might need to change the optimizer later
 optimizer = optim.Adam(model.parameters(), lr=1e-4)
-# savedir='model/'+config['circuit']['dev']+'_'+config['circuit']['sel']+'_gru'+str(i)
 
 # l = val_dataset['outset'].size(1)
 l = args['in_len']
-
-
 
 
 # plot prediction
@@ -131,6 +128,7 @@ plt.ylabel('Model Est.')
 plt.text(0.05,0.95,f'RMSE={root_mean_squared_error(predictions, true_labels):.2f}\nR2={r2_score(predictions, true_labels):.2f}',
          transform=ax.transAxes, ha='left', va='top')
 plt.title('Validation set')
+plt.savefig('figs/prediction.png', dpi=300, bbox_inches='tight', pad_inches=0.3)
 
 # ax=plt.subplot(1,2,2)
 # plt.plot(y_train, y_train_est,'.')
