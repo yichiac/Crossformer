@@ -60,8 +60,8 @@ class CropYieldDataModule(pl.LightningDataModule):
         self.batch_size = batch_size
         self.repeat_static = repeat_static
         self.fold = fold
-        self.train_years = train_years if train_years is not None else list(range(2001, 2018))
-        self.val_years = val_years
+        self.train_years = train_years if train_years is not None else list(range(2001, 2016))
+        self.val_years = val_years if val_years is not None else list(range(2016, 2018))
         self.test_years = test_years if test_years is not None else list(range(2018, 2022))
 
     # def extract_latlon(self, df):
