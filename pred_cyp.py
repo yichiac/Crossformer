@@ -106,8 +106,8 @@ with torch.no_grad():
         insample = sample[0][:,0:l,:].to(device)
         true = sample[2].to(device)
         pred = model(insample)
-        train_predictions.append(pred)
-        train_true_labels.append(true)
+        train_predictions.extend(pred.squeeze().tolist())
+        train_true_labels.append(true.squeeze().tolist())
 
 # rescale to original scale
 predictions = np.array(predictions)
