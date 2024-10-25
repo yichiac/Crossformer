@@ -131,8 +131,8 @@ l = args['in_len']
 
 # ================ Need to do the normalization for datasets ================
 
-def compute_loss(outputs, targets):
-        return F.mse_loss(outputs, targets)
+# def compute_loss(outputs, targets):
+#         return F.mse_loss(outputs, targets)
 
 def vali(model, vali_loader, l):
     model.eval()
@@ -161,6 +161,8 @@ print('start training')
 if __name__ == '__main__':
     train_loss_total = []
     vali_loss_total = []
+    criterion = nn.MSELoss()
+
     for epoch in range(0, 500): # set max_epoch
         # time_now = time.time()
         iter_count = 0
@@ -173,17 +175,8 @@ if __name__ == '__main__':
             true = sample[2].to(device)
             optimizer.zero_grad()
             pred = model(insample)
-            loss = compute_loss(pred, true)
+            loss = torch.sqrt(criterion(pred, true))
             train_loss.append(loss.item())
-
-            # if (i+1) % 5==0:
-            #     print("\titers: {0}, epoch: {1} | loss: {2:.7f}".format(i + 1, epoch + 1, loss.item()))
-            #     speed = (time.time()-time_now)/iter_count
-            #     left_time = speed*((config['training']['maxepoch'] - epoch)*train_steps - i)
-            #     print('\tspeed: {:.4f}s/iter; left time: {:.4f}s'.format(speed, left_time))
-            #     iter_count = 0
-            #     time_now = time.time()
-
             loss.backward()
             optimizer.step()
 
