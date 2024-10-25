@@ -248,13 +248,13 @@ with torch.no_grad():
 # rescale to original scale
 predictions = np.array(predictions)
 true_labels = np.array(true_labels)
-predictions = predictions*(5000-105) + 105 # max=5000, min=105, minmax scaling
-true_labels = true_labels*(5000-105) + 105
+# predictions = predictions*(5000-105) + 105 # max=5000, min=105, minmax scaling
+# true_labels = true_labels*(5000-105) + 105
 
 train_predictions = np.array(train_predictions)
 train_true_labels = np.array(train_true_labels)
-train_predictions = train_predictions*(5000-105) + 105 # max=5000, min=105, minmax scaling
-train_true_labels = train_true_labels*(5000-105) + 105
+# train_predictions = train_predictions*(5000-105) + 105 # max=5000, min=105, minmax scaling
+# train_true_labels = train_true_labels*(5000-105) + 105
 
 plt.figure(figsize=(12,5))
 ax=plt.subplot(1,2,1)
