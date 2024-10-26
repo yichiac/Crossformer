@@ -26,7 +26,7 @@ datadir='datasets/'+config['circuit']['dev']+'/'+config['circuit']['sel']+'/'
 rawdata = data.importdata(path=datadir, sel=config['circuit']['dev'],ni=config['circuit']['ninput'], \
                         no=config['circuit']['noutput'],aging=config['circuit']['aging'], \
                         agestep=config['circuit']['agestep'], unistep=config['circuit']['unistep'], \
-                        maxsample=2000,tscale=config['circuit']['hRNN'])
+                        maxsample=42500,tscale=config['circuit']['hRNN']) # length = 42469
 
 if config['circuit']['unistep']:
     for key in rawdata:
@@ -207,7 +207,7 @@ ax1.set_ylabel('Loss')
 # ax1.set_ylim(1e-4, 1)
 ax1.legend(loc='upper right', fancybox=False, framealpha=1, facecolor='white', edgecolor='black')
 
-plt.savefig('figs/loss.png', dpi=300)
+plt.savefig('figs/loss_nrmse_42k.png', dpi=300)
 plt.show()
 plt.close
 
@@ -256,7 +256,7 @@ plt.legend(bbox_to_anchor=(0.5, -0.4), loc='upper center',
            edgecolor='black', ncol=2, prop={'size': 12})
 plt.xlabel('Time [ns]',fontweight='bold')
 plt.tight_layout()
-plt.savefig('figs/prediction.png', dpi=300, bbox_inches='tight', pad_inches=0.3)
+plt.savefig('figs/prediction_nrmse_42k.png', dpi=300, bbox_inches='tight', pad_inches=0.3)
 
 # plt.ylim([-0.01,1.3])
 # plt.legend(loc='best',fancybox=True, framealpha=1, facecolor='white', edgecolor='black',ncol=1,prop={'size': 20})
