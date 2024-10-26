@@ -110,8 +110,8 @@ early_stopping = EarlyStopping(patience=10, verbose=True)
 optimizer = optim.Adam(model.parameters(), lr=1e-4)
 # savedir='model/'+config['circuit']['dev']+'_'+config['circuit']['sel']+'_gru'+str(i)
 
-l = val_dataset['outset'].size(1)
-
+# l = val_dataset['outset'].size(1)
+l = args['in_len']
 
 def vali(model, vali_loader, l):
     model.eval()
@@ -119,8 +119,6 @@ def vali(model, vali_loader, l):
     with torch.no_grad():
         for sample in vali_loader:
             insample = sample['inset'][:,0:l,:].to(device)
-            # insample = torch.cat([sample['inset'][:,0:l,:], sample['outset'][:,0:l,:]], dim=-1).to(device)
-            # true = insample
             true = sample['outset'][:,0:l,:].to(device)
             pred = model(insample)
             loss = NRMSE(pred, true)
@@ -150,8 +148,6 @@ if __name__ == '__main__':
         epoch_time = time.time()
         for sample in train_loader:
             insample = sample['inset'][:,0:l,:].to(device)
-            # insample = torch.cat([sample['inset'][:,0:l,:], sample['outset'][:,0:l,:]], dim=-1).to(device)
-            # true = insample
             true = sample['outset'][:,0:l,:].to(device)
             optimizer.zero_grad()
             pred = model(insample)
@@ -194,69 +190,69 @@ if __name__ == '__main__':
     torch.save(state_dict, path+'/'+'checkpoint.pth')
 
 # plot loss
-print('Plotting loss...')
+# print('Plotting loss...')
 
-fig, ax1 = plt.subplots()
-x = np.linspace(0, len(train_loss_total)-1, num=len(train_loss_total))
+# fig, ax1 = plt.subplots()
+# x = np.linspace(0, len(train_loss_total)-1, num=len(train_loss_total))
 
-ax1.plot(x, train_loss_total, label='Training loss')
-ax1.plot(x, vali_loss_total, label='Validation loss')
+# ax1.plot(x, train_loss_total, label='Training loss')
+# ax1.plot(x, vali_loss_total, label='Validation loss')
 
-ax1.set_xlabel('Epochs')
-ax1.set_ylabel('Loss')
-# ax1.set_ylim(1e-4, 1)
-ax1.legend(loc='upper right', fancybox=False, framealpha=1, facecolor='white', edgecolor='black')
+# ax1.set_xlabel('Epochs')
+# ax1.set_ylabel('Loss')
+# # ax1.set_ylim(1e-4, 1)
+# ax1.legend(loc='upper right', fancybox=False, framealpha=1, facecolor='white', edgecolor='black')
 
-plt.savefig('figs/loss_nrmse_42k.png', dpi=300)
-plt.show()
-plt.close
+# plt.savefig('figs/loss_nrmse_42k.png', dpi=300)
+# plt.show()
+# plt.close
 
 
-# plot prediction
-print('Plotting prediction...')
+# # plot prediction
+# print('Plotting prediction...')
 
-model.eval()
-with torch.no_grad():
-    outpred=model(valid_tensor['inset'])
+# model.eval()
+# with torch.no_grad():
+#     outpred=model(valid_tensor['inset'])
 
-t = np.linspace(0,config['circuit']['hRNN']*1e9*(config['circuit']['nstep']-1),config['circuit']['nstep'])
-ns = 17
-plt.figure(1, figsize=(10, 16))
-plt.clf()
+# t = np.linspace(0,config['circuit']['hRNN']*1e9*(config['circuit']['nstep']-1),config['circuit']['nstep'])
+# ns = 17
+# plt.figure(1, figsize=(10, 16))
+# plt.clf()
 
-plt.subplots_adjust(hspace=0.5)
+# plt.subplots_adjust(hspace=0.5)
 
-for i in range(config['circuit']['ninput']):
-    if str(i) in config['model']['norminputs']:
-        m1,m2=config['model']['norminputs'][str(i)]
-    else:
-        m1,m2=[0,1]
-    plt.subplot(config['circuit']['ninput']+config['circuit']['noutput'],1,i+1)
-    plt.plot(t, valid_tensor['inset'][ns,:,i].cpu().numpy()*(m2-m1)+m1,linewidth=4)
-    plt.ylabel('Vin%d [V]'%(i+1),fontweight='bold')
-    plt.grid()
-    plt.gca().yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
+# for i in range(config['circuit']['ninput']):
+#     if str(i) in config['model']['norminputs']:
+#         m1,m2=config['model']['norminputs'][str(i)]
+#     else:
+#         m1,m2=[0,1]
+#     plt.subplot(config['circuit']['ninput']+config['circuit']['noutput'],1,i+1)
+#     plt.plot(t, valid_tensor['inset'][ns,:,i].cpu().numpy()*(m2-m1)+m1,linewidth=4)
+#     plt.ylabel('Vin%d [V]'%(i+1),fontweight='bold')
+#     plt.grid()
+#     plt.gca().yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
 
-for i in range(config['circuit']['noutput']):
-    if str(i) in config['model']['normoutputs']:
-        m1,m2=config['model']['normoutputs'][str(i)]
-    else:
-        m1,m2=[0,1]
-    plt.subplot(config['circuit']['ninput']+config['circuit']['noutput'],1,config['circuit']['ninput']+i+1)
-    plt.plot(t,(valid_tensor['outset'][ns,:,i].cpu().numpy()*(m2-m1)+m1),linewidth=4,label='True',zorder=2)
-    plt.scatter(t, (outpred[ns,:,i].cpu().numpy()*(m2-m1)+m1),s=20,c='darkorange',label='Pred',zorder=1)
-    # plt.plot(t,valid_tensor['outset'][ns*config['circuit']['agestep']+config['circuit']['agestep']-1,:,i],linewidth=4,label='True (10)')
-    # plt.plot(t,outpred[ns*config['circuit']['agestep']+config['circuit']['agestep']-1,:,i],'--',linewidth=4,label='Pred (10)')
-    plt.ylabel('Vout%d [V]'%(i+1),fontweight='bold')
-    plt.grid()
-    plt.gca().yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
+# for i in range(config['circuit']['noutput']):
+#     if str(i) in config['model']['normoutputs']:
+#         m1,m2=config['model']['normoutputs'][str(i)]
+#     else:
+#         m1,m2=[0,1]
+#     plt.subplot(config['circuit']['ninput']+config['circuit']['noutput'],1,config['circuit']['ninput']+i+1)
+#     plt.plot(t,(valid_tensor['outset'][ns,:,i].cpu().numpy()*(m2-m1)+m1),linewidth=4,label='True',zorder=2)
+#     plt.scatter(t, (outpred[ns,:,i].cpu().numpy()*(m2-m1)+m1),s=20,c='darkorange',label='Pred',zorder=1)
+#     # plt.plot(t,valid_tensor['outset'][ns*config['circuit']['agestep']+config['circuit']['agestep']-1,:,i],linewidth=4,label='True (10)')
+#     # plt.plot(t,outpred[ns*config['circuit']['agestep']+config['circuit']['agestep']-1,:,i],'--',linewidth=4,label='Pred (10)')
+#     plt.ylabel('Vout%d [V]'%(i+1),fontweight='bold')
+#     plt.grid()
+#     plt.gca().yaxis.set_major_formatter(FormatStrFormatter('%.1f'))
 
-plt.legend(bbox_to_anchor=(0.5, -0.4), loc='upper center',
-           fancybox=True, framealpha=1, facecolor='white',
-           edgecolor='black', ncol=2, prop={'size': 12})
-plt.xlabel('Time [ns]',fontweight='bold')
-plt.tight_layout()
-plt.savefig('figs/prediction_nrmse_42k.png', dpi=300, bbox_inches='tight', pad_inches=0.3)
+# plt.legend(bbox_to_anchor=(0.5, -0.4), loc='upper center',
+#            fancybox=True, framealpha=1, facecolor='white',
+#            edgecolor='black', ncol=2, prop={'size': 12})
+# plt.xlabel('Time [ns]',fontweight='bold')
+# plt.tight_layout()
+# plt.savefig('figs/prediction_nrmse_42k.png', dpi=300, bbox_inches='tight', pad_inches=0.3)
 
 # plt.ylim([-0.01,1.3])
 # plt.legend(loc='best',fancybox=True, framealpha=1, facecolor='white', edgecolor='black',ncol=1,prop={'size': 20})
