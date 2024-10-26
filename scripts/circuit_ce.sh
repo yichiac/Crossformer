@@ -17,4 +17,4 @@ conda activate dali
 
 cd ~/Crossformer
 
-python3 run_nrmse.py
+python3 run_ce.py

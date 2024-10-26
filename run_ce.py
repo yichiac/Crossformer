@@ -7,6 +7,7 @@ import torch
 from torch import optim
 import torch.nn as nn
 from torch.nn import DataParallel
+import torch.nn.functional as F
 
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FormatStrFormatter
@@ -48,25 +49,14 @@ rawdata['outset'],config['model']['normoutputs']=data.normalize(rawdata['outset'
 train_dataset, val_dataset= data.split(rawdata, rate=0.8, shuffle=False, aging=config['circuit']['aging'], \
                             agestep=config['circuit']['agestep'])
 
-# for plotting
-train_tensor,valid_tensor=[{},{}]
-for key in train_dataset:
-    train_tensor[key]=torch.tensor(train_dataset[key], device=device)
-    valid_tensor[key]=torch.tensor(val_dataset[key], device=device)
-
-datamodule = CircuitDataModule(train_dataset=train_dataset, val_dataset=val_dataset, batch_size=16, num_workers=4, device=torch.device('cpu'))
-datamodule.setup()
-train_loader = datamodule.train_dataloader()
-val_loader = datamodule.val_dataloader()
-
 args = {'data_dim': 3,
-        'in_len': 501,
-        'out_len': 501,
-        'seg_len': 6,
+        'in_len': 480,
+        'out_len': 480,
+        'seg_len': 24,
         'win_size': 4,
         'factor': 10,
-        'd_model': 256,
-        'd_ff': 512,
+        'd_model': 512,
+        'd_ff': 1024,
         'n_heads': 8,
         'e_layers': 3,
         'dropout': 0.0,
@@ -75,6 +65,23 @@ args = {'data_dim': 3,
         'reproj': 'fc',
         'loss': 'ce',
         }
+
+l = args['in_len']
+
+
+# for plotting
+train_tensor,valid_tensor=[{},{}]
+for key in train_dataset:
+    train_tensor[key]=torch.tensor(train_dataset[key], device=device)
+    train_tensor[key]=train_tensor[key][:, :l, :]
+    valid_tensor[key]=torch.tensor(val_dataset[key], device=device)
+    valid_tensor[key]=valid_tensor[key][:, :l, :]
+
+
+datamodule = CircuitDataModule(train_dataset=train_dataset, val_dataset=val_dataset, batch_size=16, num_workers=4, device=torch.device('cpu'))
+datamodule.setup()
+train_loader = datamodule.train_dataloader()
+val_loader = datamodule.val_dataloader()
 
 # model = CrossformerCircuit(data_dim=5, in_len=501, out_len=501, seg_len=6, win_size=4,
 #                 factor=10, d_model=256, d_ff=512, n_heads=8, e_layers=3,
@@ -110,7 +117,11 @@ early_stopping = EarlyStopping(patience=10, verbose=True)
 optimizer = optim.Adam(model.parameters(), lr=1e-4)
 # savedir='model/'+config['circuit']['dev']+'_'+config['circuit']['sel']+'_gru'+str(i)
 
-l = val_dataset['outset'].size(1)
+
+def loss_crossentropy(pred, targ):
+    a=torch.mul(-(1-targ),torch.log10(1-pred))
+    b=torch.mul(-targ,torch.log10(pred))
+    return torch.mean(a+b)
 
 
 def vali(model, vali_loader, l):
@@ -119,11 +130,10 @@ def vali(model, vali_loader, l):
     with torch.no_grad():
         for sample in vali_loader:
             insample = sample['inset'][:,0:l,:].to(device)
-            # insample = torch.cat([sample['inset'][:,0:l,:], sample['outset'][:,0:l,:]], dim=-1).to(device)
-            # true = insample
             true = sample['outset'][:,0:l,:].to(device)
             pred = model(insample)
-            loss = NRMSE(pred, true)
+            # loss = NRMSE(pred, true)
+            loss = loss_crossentropy(pred, true)
             total_loss.append(loss.item())
 
     total_loss = np.average(total_loss)
@@ -131,11 +141,11 @@ def vali(model, vali_loader, l):
     return total_loss
 
 
-def NRMSE(prediction, target):
-    error = torch.sum((prediction - target) ** 2, dim=1)
-    norm = torch.sum(target ** 2, dim=1)
-    NRMSerror = torch.mean(torch.sqrt(error / norm))
-    return NRMSerror
+# def NRMSE(prediction, target):
+#     error = torch.sum((prediction - target) ** 2, dim=1)
+#     norm = torch.sum(target ** 2, dim=1)
+#     NRMSerror = torch.mean(torch.sqrt(error / norm))
+#     return NRMSerror
 
 
 if __name__ == '__main__':
@@ -150,12 +160,11 @@ if __name__ == '__main__':
         epoch_time = time.time()
         for sample in train_loader:
             insample = sample['inset'][:,0:l,:].to(device)
-            # insample = torch.cat([sample['inset'][:,0:l,:], sample['outset'][:,0:l,:]], dim=-1).to(device)
-            # true = insample
             true = sample['outset'][:,0:l,:].to(device)
             optimizer.zero_grad()
             pred = model(insample)
-            loss = NRMSE(pred, true)
+            # loss = NRMSE(pred, true)
+            loss = loss_crossentropy(pred, true)
             train_loss.append(loss.item())
 
             if (i+1) % 5==0:
@@ -219,7 +228,8 @@ model.eval()
 with torch.no_grad():
     outpred=model(valid_tensor['inset'])
 
-t = np.linspace(0,config['circuit']['hRNN']*1e9*(config['circuit']['nstep']-1),config['circuit']['nstep'])
+# t = np.linspace(0,config['circuit']['hRNN']*1e9*(config['circuit']['nstep']-1),config['circuit']['nstep'])
+t = np.linspace(0,config['circuit']['hRNN']*1e9*(config['circuit']['nstep']-1),args['out_len'])
 ns = 17
 plt.figure(1, figsize=(10, 16))
 plt.clf()
@@ -256,7 +266,7 @@ plt.legend(bbox_to_anchor=(0.5, -0.4), loc='upper center',
            edgecolor='black', ncol=2, prop={'size': 12})
 plt.xlabel('Time [ns]',fontweight='bold')
 plt.tight_layout()
-plt.savefig('figs/prediction_ce_42k.png', dpi=300, bbox_inches='tight', pad_inches=0.3)
+plt.savefig('figs/predictio_ce_42k.png', dpi=300, bbox_inches='tight', pad_inches=0.3)
 
-# plt.ylim([-0.01,1.3])
-# plt.legend(loc='best',fancybox=True, framealpha=1, facecolor='white', edgecolor='black',ncol=1,prop={'size': 20})
+plt.ylim([-0.01,1.3])
+plt.legend(loc='best',fancybox=True, framealpha=1, facecolor='white', edgecolor='black',ncol=1,prop={'size': 20})

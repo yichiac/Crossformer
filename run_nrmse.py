@@ -113,7 +113,7 @@ train_steps = len(train_loader)
 
 early_stopping = EarlyStopping(patience=10, verbose=True)
 # optimizer = optim.RMSprop(model.parameters(), lr=0.001, momentum=0.9, weight_decay=1e-7, eps=0.0001) # might need to change the optimizer later
-optimizer = optim.Adam(model.parameters(), lr=1e-4)
+optimizer = optim.Adam(model.parameters(), lr=5e-5)
 # savedir='model/'+config['circuit']['dev']+'_'+config['circuit']['sel']+'_gru'+str(i)
 
 # l = val_dataset['outset'].size(1)
@@ -220,7 +220,7 @@ model.eval()
 with torch.no_grad():
     outpred=model(valid_tensor['inset'])
 
-t = np.linspace(0,config['circuit']['hRNN']*1e9*(config['circuit']['nstep']-1),config['circuit']['nstep'])
+t = np.linspace(0,config['circuit']['hRNN']*1e9*(config['circuit']['nstep']-1),args['out_len'])
 ns = 17
 plt.figure(1, figsize=(10, 16))
 plt.clf()
