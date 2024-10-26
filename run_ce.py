@@ -60,8 +60,8 @@ train_loader = datamodule.train_dataloader()
 val_loader = datamodule.val_dataloader()
 
 args = {'data_dim': 3,
-        'in_len': 502,
-        'out_len': 502,
+        'in_len': 501,
+        'out_len': 501,
         'seg_len': 6,
         'win_size': 4,
         'factor': 10,
@@ -207,7 +207,7 @@ ax1.set_ylabel('Loss')
 # ax1.set_ylim(1e-4, 1)
 ax1.legend(loc='upper right', fancybox=False, framealpha=1, facecolor='white', edgecolor='black')
 
-plt.savefig('figs/loss_nrmse_42k.png', dpi=300)
+plt.savefig('figs/loss_ce_42k.png', dpi=300)
 plt.show()
 plt.close
 
@@ -256,7 +256,7 @@ plt.legend(bbox_to_anchor=(0.5, -0.4), loc='upper center',
            edgecolor='black', ncol=2, prop={'size': 12})
 plt.xlabel('Time [ns]',fontweight='bold')
 plt.tight_layout()
-plt.savefig('figs/prediction_nrmse_42k.png', dpi=300, bbox_inches='tight', pad_inches=0.3)
+plt.savefig('figs/prediction_ce_42k.png', dpi=300, bbox_inches='tight', pad_inches=0.3)
 
 # plt.ylim([-0.01,1.3])
 # plt.legend(loc='best',fancybox=True, framealpha=1, facecolor='white', edgecolor='black',ncol=1,prop={'size': 20})

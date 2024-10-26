@@ -60,9 +60,9 @@ train_loader = datamodule.train_dataloader()
 val_loader = datamodule.val_dataloader()
 
 args = {'data_dim': 3,
-        'in_len': 502,
-        'out_len': 502,
-        'seg_len': 6,
+        'in_len': 480,
+        'out_len': 480,
+        'seg_len': 24,
         'win_size': 4,
         'factor': 10,
         'd_model': 512,
