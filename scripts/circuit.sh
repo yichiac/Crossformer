@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #SBATCH --time=06:00:00
-#SBATCH --mem=32
+#SBATCH --mem=32G
 #SBATCH --job-name=circuit
 #SBATCH --partition=dali
 #SBATCH --nodes=1
