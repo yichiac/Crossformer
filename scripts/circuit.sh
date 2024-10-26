@@ -18,4 +18,3 @@ conda activate dali
 cd ~/Crossformer
 
 python3 run.py
-
