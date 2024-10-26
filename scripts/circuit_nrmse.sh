@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 #SBATCH --time=06:00:00
-#SBATCH --mem=32G
-#SBATCH --job-name=circuit
+#SBATCH --mem=64G
+#SBATCH --job-name=circuit_nrmse
 #SBATCH --partition=dali
 #SBATCH --nodes=1
 #SBATCH --ntasks-per-node=16
@@ -17,4 +17,4 @@ conda activate dali
 
 cd ~/Crossformer
 
-python3 run.py
+python3 run_nrmse.py

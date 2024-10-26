@@ -60,13 +60,13 @@ train_loader = datamodule.train_dataloader()
 val_loader = datamodule.val_dataloader()
 
 args = {'data_dim': 3,
-        'in_len': 501,
-        'out_len': 501,
+        'in_len': 502,
+        'out_len': 502,
         'seg_len': 6,
         'win_size': 4,
         'factor': 10,
-        'd_model': 256,
-        'd_ff': 512,
+        'd_model': 512,
+        'd_ff': 1024,
         'n_heads': 8,
         'e_layers': 3,
         'dropout': 0.0,
@@ -80,7 +80,7 @@ args = {'data_dim': 3,
 #                 factor=10, d_model=256, d_ff=512, n_heads=8, e_layers=3,
 #                 dropout=0.0, baseline = False) #, device=torch.device('cuda:0'))
 
-setting = 'Crossformer_{}_il{}_ol{}_sl{}_win{}_fa{}_dm{}_nh{}_el{}_itr{}_reproj_{}_loss_{}'.format('circuit',
+setting = 'Crossformer_{}_il{}_ol{}_sl{}_win{}_fa{}_dm{}_nh{}_el{}_itr{}_reproj_{}_loss_{}'.format('circuit42k',
             args['in_len'], args['out_len'], args['seg_len'], args['win_size'], args['factor'],
             args['d_model'], args['n_heads'], args['e_layers'], args['iter'], args['reproj'], args['loss'])
 path = os.path.join('./checkpoints/', setting)
