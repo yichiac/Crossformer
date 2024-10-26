@@ -133,7 +133,8 @@ def vali(model, vali_loader, l):
             true = sample['outset'][:,0:l,:].to(device)
             pred = model(insample)
             # loss = NRMSE(pred, true)
-            loss = loss_crossentropy(pred, true)
+            # loss = loss_crossentropy(pred, true)
+            loss = F.cross_entropy(pred, true)
             total_loss.append(loss.item())
 
     total_loss = np.average(total_loss)
@@ -164,7 +165,8 @@ if __name__ == '__main__':
             optimizer.zero_grad()
             pred = model(insample)
             # loss = NRMSE(pred, true)
-            loss = loss_crossentropy(pred, true)
+            # loss = loss_crossentropy(pred, true)
+            loss = F.cross_entropy(pred, true)
             train_loss.append(loss.item())
 
             if (i+1) % 5==0:
