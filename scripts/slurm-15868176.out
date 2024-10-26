@@ -1,0 +1,87 @@
+cuda
+datasets/adc/ft/adc.csv, line 25040: Invalid sample.
+
+Epoch: 1 cost time: 98.18933963775635
+Epoch: 1, Steps: 2123 | Train Loss: 12.3752829 Vali Loss: 2.0910772
+Validation loss decreased (inf --> 2.091077).  Saving model ...
+Epoch: 2 cost time: 96.0092384815216
+Epoch: 2, Steps: 2123 | Train Loss: 5.4478807 Vali Loss: 8.6703664
+EarlyStopping counter: 1 out of 10
+Epoch: 3 cost time: 98.68567872047424
+Epoch: 3, Steps: 2123 | Train Loss: 4.5189704 Vali Loss: 1.9291426
+Validation loss decreased (2.091077 --> 1.929143).  Saving model ...
+Epoch: 4 cost time: 97.64650893211365
+Epoch: 4, Steps: 2123 | Train Loss: 4.1632086 Vali Loss: 7.6070952
+EarlyStopping counter: 1 out of 10
+Epoch: 5 cost time: 98.65031123161316
+Epoch: 5, Steps: 2123 | Train Loss: 4.3129058 Vali Loss: 1.1862848
+Validation loss decreased (1.929143 --> 1.186285).  Saving model ...
+Epoch: 6 cost time: 98.39925289154053
+Epoch: 6, Steps: 2123 | Train Loss: 4.1868947 Vali Loss: 3.7332271
+EarlyStopping counter: 1 out of 10
+Epoch: 7 cost time: 99.11576080322266
+Epoch: 7, Steps: 2123 | Train Loss: 4.2717471 Vali Loss: 3.1645718
+EarlyStopping counter: 2 out of 10
+Epoch: 8 cost time: 100.15655875205994
+Epoch: 8, Steps: 2123 | Train Loss: 3.5681726 Vali Loss: 5.3327508
+EarlyStopping counter: 3 out of 10
+Epoch: 9 cost time: 97.08389234542847
+Epoch: 9, Steps: 2123 | Train Loss: 4.0410955 Vali Loss: 9.6683981
+EarlyStopping counter: 4 out of 10
+Epoch: 10 cost time: 97.67174673080444
+Epoch: 10, Steps: 2123 | Train Loss: 3.3097152 Vali Loss: 3.8934192
+EarlyStopping counter: 5 out of 10
+Epoch: 11 cost time: 104.41531300544739
+Epoch: 11, Steps: 2123 | Train Loss: 3.1987869 Vali Loss: 1.0230478
+Validation loss decreased (1.186285 --> 1.023048).  Saving model ...
+Epoch: 12 cost time: 98.57415914535522
+Epoch: 12, Steps: 2123 | Train Loss: 3.8682112 Vali Loss: 5.3299213
+EarlyStopping counter: 1 out of 10
+Epoch: 13 cost time: 96.52874088287354
+Epoch: 13, Steps: 2123 | Train Loss: 2.9325664 Vali Loss: 1.0219574
+Validation loss decreased (1.023048 --> 1.021957).  Saving model ...
+Epoch: 14 cost time: 96.53736567497253
+Epoch: 14, Steps: 2123 | Train Loss: 3.3696840 Vali Loss: 3.3179439
+EarlyStopping counter: 1 out of 10
+Epoch: 15 cost time: 99.3499207496643
+Epoch: 15, Steps: 2123 | Train Loss: 2.6247979 Vali Loss: 2.2275779
+EarlyStopping counter: 2 out of 10
+Epoch: 16 cost time: 95.83104062080383
+Epoch: 16, Steps: 2123 | Train Loss: 3.1662553 Vali Loss: 2.3720417
+EarlyStopping counter: 3 out of 10
+Epoch: 17 cost time: 98.85159111022949
+Epoch: 17, Steps: 2123 | Train Loss: 2.9067300 Vali Loss: 2.2403470
+EarlyStopping counter: 4 out of 10
+Epoch: 18 cost time: 98.30370664596558
+Epoch: 18, Steps: 2123 | Train Loss: 2.6437849 Vali Loss: 4.1478150
+EarlyStopping counter: 5 out of 10
+Epoch: 19 cost time: 99.616290807724
+Epoch: 19, Steps: 2123 | Train Loss: 2.8278103 Vali Loss: 2.1418748
+EarlyStopping counter: 6 out of 10
+Epoch: 20 cost time: 98.91936326026917
+Epoch: 20, Steps: 2123 | Train Loss: 2.9730414 Vali Loss: 3.8927197
+EarlyStopping counter: 7 out of 10
+Epoch: 21 cost time: 98.58414077758789
+Epoch: 21, Steps: 2123 | Train Loss: 2.8186418 Vali Loss: 2.8248469
+EarlyStopping counter: 8 out of 10
+Epoch: 22 cost time: 96.91131830215454
+Epoch: 22, Steps: 2123 | Train Loss: 2.9271701 Vali Loss: 5.0468647
+EarlyStopping counter: 9 out of 10
+Epoch: 23 cost time: 97.53710722923279
+Epoch: 23, Steps: 2123 | Train Loss: 2.5042517 Vali Loss: 2.7488685
+EarlyStopping counter: 10 out of 10
+Early stopping
+Plotting loss...
+Plotting prediction...
+Traceback (most recent call last):
+  File "/home/yichia3/Crossformer/run_nrmse.py", line 236, in <module>
+    plt.plot(t, valid_tensor['inset'][ns,:,i].cpu().numpy()*(m2-m1)+m1,linewidth=4)
+  File "/projects/dali/yichia3/envs/dali/lib/python3.10/site-packages/matplotlib/pyplot.py", line 3794, in plot
+    return gca().plot(
+  File "/projects/dali/yichia3/envs/dali/lib/python3.10/site-packages/matplotlib/axes/_axes.py", line 1779, in plot
+    lines = [*self._get_lines(self, *args, data=data, **kwargs)]
+  File "/projects/dali/yichia3/envs/dali/lib/python3.10/site-packages/matplotlib/axes/_base.py", line 296, in __call__
+    yield from self._plot_args(
+  File "/projects/dali/yichia3/envs/dali/lib/python3.10/site-packages/matplotlib/axes/_base.py", line 486, in _plot_args
+    raise ValueError(f"x and y must have same first dimension, but "
+ValueError: x and y must have same first dimension, but have shapes (501,) and (480,)
