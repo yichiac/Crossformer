@@ -87,7 +87,7 @@ val_loader = datamodule.val_dataloader()
 #                 factor=10, d_model=256, d_ff=512, n_heads=8, e_layers=3,
 #                 dropout=0.0, baseline = False) #, device=torch.device('cuda:0'))
 
-setting = 'Crossformer_{}_il{}_ol{}_sl{}_win{}_fa{}_dm{}_nh{}_el{}_itr{}_reproj_{}_loss_{}'.format('circuit42k',
+setting = 'Crossformer_{}_il{}_ol{}_sl{}_win{}_fa{}_dm{}_nh{}_el{}_itr{}_reproj_{}_loss_{}'.format('circuit2k',
             args['in_len'], args['out_len'], args['seg_len'], args['win_size'], args['factor'],
             args['d_model'], args['n_heads'], args['e_layers'], args['iter'], args['reproj'], args['loss'])
 path = os.path.join('./checkpoints/', setting)
@@ -218,7 +218,7 @@ ax1.set_ylabel('Loss')
 # ax1.set_ylim(1e-4, 1)
 ax1.legend(loc='upper right', fancybox=False, framealpha=1, facecolor='white', edgecolor='black')
 
-plt.savefig('figs/loss_ce_42k.png', dpi=300)
+plt.savefig('figs/loss_ce_2k.png', dpi=300)
 plt.show()
 plt.close
 
@@ -268,7 +268,7 @@ plt.legend(bbox_to_anchor=(0.5, -0.4), loc='upper center',
            edgecolor='black', ncol=2, prop={'size': 12})
 plt.xlabel('Time [ns]',fontweight='bold')
 plt.tight_layout()
-plt.savefig('figs/predictio_ce_42k.png', dpi=300, bbox_inches='tight', pad_inches=0.3)
+plt.savefig('figs/predictio_ce_2k.png', dpi=300, bbox_inches='tight', pad_inches=0.3)
 
 plt.ylim([-0.01,1.3])
 plt.legend(loc='best',fancybox=True, framealpha=1, facecolor='white', edgecolor='black',ncol=1,prop={'size': 20})
