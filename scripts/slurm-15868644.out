@@ -1,0 +1,10 @@
+cuda
+datasets/adc/ft/adc.csv, line 25040: Invalid sample.
+
+Epoch: 1 cost time: 95.28931021690369
+Epoch: 1, Steps: 2123 | Train Loss: nan Vali Loss: nan
+Validation loss decreased (inf --> nan).  Saving model ...
+Epoch: 2 cost time: 98.7049834728241
+Epoch: 2, Steps: 2123 | Train Loss: nan Vali Loss: nan
+Validation loss decreased (nan --> nan).  Saving model ...
+slurmstepd: error: *** JOB 15868644 ON ccc0284 CANCELLED AT 2024-10-26T18:10:44 ***
