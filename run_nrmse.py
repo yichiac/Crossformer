@@ -112,9 +112,9 @@ model.to(device)
 train_steps = len(train_loader)
 
 early_stopping = EarlyStopping(patience=10, verbose=True)
-# optimizer = optim.RMSprop(model.parameters(), lr=0.001, momentum=0.9, weight_decay=1e-7, eps=0.0001) # might need to change the optimizer later
 lr = 1e-4
-optimizer = optim.Adam(model.parameters(), lr=lr)
+optimizer = optim.RMSprop(model.parameters(), lr=lr, momentum=0.9, weight_decay=1e-7, eps=0.0001)
+# optimizer = optim.Adam(model.parameters(), lr=lr)
 # savedir='model/'+config['circuit']['dev']+'_'+config['circuit']['sel']+'_gru'+str(i)
 
 # l = val_dataset['outset'].size(1)
@@ -209,7 +209,7 @@ ax1.set_ylabel('Loss')
 # ax1.set_ylim(1e-4, 1)
 ax1.legend(loc='upper right', fancybox=False, framealpha=1, facecolor='white', edgecolor='black')
 
-plt.savefig(f'figs/loss_nrmse_2k_lr{lr:.0e}.png', dpi=300)
+plt.savefig(f'figs/loss_nrmse_2k_lr{lr:.0e}_rmsprop.png', dpi=300)
 plt.show()
 plt.close
 
@@ -258,7 +258,7 @@ plt.legend(bbox_to_anchor=(0.5, -0.4), loc='upper center',
            edgecolor='black', ncol=2, prop={'size': 12})
 plt.xlabel('Time [ns]',fontweight='bold')
 plt.tight_layout()
-plt.savefig(f'figs/prediction_nrmse_2k_lr{lr:.0e}.png', dpi=300, bbox_inches='tight', pad_inches=0.3)
+plt.savefig(f'figs/prediction_nrmse_2k_lr{lr:.0e}_rmsprop.png', dpi=300, bbox_inches='tight', pad_inches=0.3)
 
 
 plt.ylim([-0.01,1.3])
