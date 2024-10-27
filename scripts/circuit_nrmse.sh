@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 #SBATCH --time=06:00:00
-#SBATCH --mem=32G
+#SBATCH --mem=16G
 #SBATCH --job-name=circuit_nrmse
 #SBATCH --partition=dali
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=16
+#SBATCH --ntasks-per-node=8
 #SBATCH --gres=gpu:A100:1
 #SBATCH --mail-user=yichia3@illinois.edu
 #SBATCH --mail-type=END
