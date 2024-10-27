@@ -113,7 +113,7 @@ train_steps = len(train_loader)
 
 early_stopping = EarlyStopping(patience=10, verbose=True)
 # optimizer = optim.RMSprop(model.parameters(), lr=0.001, momentum=0.9, weight_decay=1e-7, eps=0.0001) # might need to change the optimizer later
-lr = 1e-3
+lr = 1e-4
 optimizer = optim.Adam(model.parameters(), lr=lr)
 # savedir='model/'+config['circuit']['dev']+'_'+config['circuit']['sel']+'_gru'+str(i)
 
@@ -209,7 +209,7 @@ ax1.set_ylabel('Loss')
 # ax1.set_ylim(1e-4, 1)
 ax1.legend(loc='upper right', fancybox=False, framealpha=1, facecolor='white', edgecolor='black')
 
-plt.savefig('figs/loss_nrmse_2k_lr{lr:.0e}.png', dpi=300)
+plt.savefig(f'figs/loss_nrmse_2k_lr{lr:.0e}.png', dpi=300)
 plt.show()
 plt.close
 
