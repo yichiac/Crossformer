@@ -112,7 +112,7 @@ model.to(device)
 train_steps = len(train_loader)
 
 early_stopping = EarlyStopping(patience=10, verbose=True)
-lr = 1e-4
+lr = 1e-3
 optimizer = optim.RMSprop(model.parameters(), lr=lr, momentum=0.9, weight_decay=1e-7, eps=0.0001)
 # optimizer = optim.Adam(model.parameters(), lr=lr)
 # savedir='model/'+config['circuit']['dev']+'_'+config['circuit']['sel']+'_gru'+str(i)
