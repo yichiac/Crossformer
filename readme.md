@@ -8,8 +8,8 @@ The dataset `datasets/adc.csv` contains 2000 data records. Each data record cons
 
 ## Experiment result
 <p float="left">
-<img src=".\figs\circuit_loss.jpg" height = "400" alt="" align=center />
-<img src=".\figs\circuit_fit.jpg" height = "300" alt="" align=center />
+<img src=".\figs\circuit_loss.jpg" height = "300" alt="" align=center />
+<img src=".\figs\circuit_fit.jpg" height = "250" alt="" align=center />
 
 <b>Figure 1.</b> The loss curves vs epochs (left) and one example fitting result using trained model.
 </p>
