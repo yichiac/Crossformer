@@ -49,13 +49,13 @@ train_dataset, val_dataset= data.split(rawdata, rate=0.8, shuffle=False, aging=c
                             agestep=config['circuit']['agestep'])
 
 args = {'data_dim': 3,
-        'in_len': 480,
-        'out_len': 480,
-        'seg_len': 24,
+        'in_len': 501,
+        'out_len': 501,
+        'seg_len': 6,
         'win_size': 4,
         'factor': 10,
-        'd_model': 512,
-        'd_ff': 1024,
+        'd_model': 256,
+        'd_ff': 512,
         'n_heads': 8,
         'e_layers': 3,
         'dropout': 0.0,
@@ -112,7 +112,7 @@ model.to(device)
 train_steps = len(train_loader)
 
 early_stopping = EarlyStopping(patience=10, verbose=True)
-lr = 1e-3
+lr = 5e-4
 optimizer = optim.RMSprop(model.parameters(), lr=lr, momentum=0.9, weight_decay=1e-7, eps=0.0001)
 # optimizer = optim.Adam(model.parameters(), lr=lr)
 # savedir='model/'+config['circuit']['dev']+'_'+config['circuit']['sel']+'_gru'+str(i)
