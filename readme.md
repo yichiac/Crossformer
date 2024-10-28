@@ -22,5 +22,5 @@ To reproduce the result, run
 python run_nrmse.py
 ```
 
-To use our model on the dataset, change `config.json` and our top-level `run_nrmse`.
+To use our model on the dataset, change `config.json` and our top-level `run_nrmse.py`.
 
