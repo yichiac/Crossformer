@@ -1,5 +1,5 @@
 from cross_models.cross_former import CrossformerCircuit
-from utils.tools import EarlyStopping, adjust_learning_rate
+from utils.tools import adjust_learning_rate
 import models.data_process as data
 from data import CircuitDataModule
 
@@ -26,7 +26,7 @@ datadir='datasets/'+config['circuit']['dev']+'/'+config['circuit']['sel']+'/'
 rawdata = data.importdata(path=datadir, sel=config['circuit']['dev'],ni=config['circuit']['ninput'], \
                         no=config['circuit']['noutput'],aging=config['circuit']['aging'], \
                         agestep=config['circuit']['agestep'], unistep=config['circuit']['unistep'], \
-                        maxsample=42500,tscale=config['circuit']['hRNN']) # length = 42469
+                        maxsample=2000,tscale=config['circuit']['hRNN']) # length = 42469
 
 if config['circuit']['unistep']:
     for key in rawdata:
@@ -111,10 +111,10 @@ model.to(device)
 
 train_steps = len(train_loader)
 
-early_stopping = EarlyStopping(patience=10, verbose=True)
-lr = 5e-4
-optimizer = optim.RMSprop(model.parameters(), lr=lr, momentum=0.9, weight_decay=1e-7, eps=0.0001)
-# optimizer = optim.Adam(model.parameters(), lr=lr)
+# early_stopping = EarlyStopping(patience=10, verbose=True)
+lr = 1e-3
+# optimizer = optim.RMSprop(model.parameters(), lr=lr, momentum=0.9, weight_decay=1e-7, eps=0.0001)
+optimizer = optim.Adam(model.parameters(), lr=lr)
 # savedir='model/'+config['circuit']['dev']+'_'+config['circuit']['sel']+'_gru'+str(i)
 
 # l = val_dataset['outset'].size(1)
@@ -183,12 +183,12 @@ if __name__ == '__main__':
         #     epoch + 1, train_steps, train_loss, vali_loss, test_loss))
         print("Epoch: {0}, Steps: {1} | Train Loss: {2:.7f} Vali Loss: {3:.7f}".format(
             epoch + 1, train_steps, train_loss, vali_loss))
-        early_stopping(vali_loss, model, path)
-        if early_stopping.early_stop:
-            print("Early stopping")
-            break
+        # early_stopping(vali_loss, model, path)
+        # if early_stopping.early_stop:
+        #     print("Early stopping")
+        #     break
 
-        adjust_learning_rate(optimizer, epoch+1)
+        adjust_learning_rate(optimizer, epoch+1, lr, lradj='type1')
 
     best_model_path = path+'/'+'checkpoint.pth'
     model.load_state_dict(torch.load(best_model_path))
@@ -206,10 +206,9 @@ ax1.plot(x, vali_loss_total, label='Validation loss')
 
 ax1.set_xlabel('Epochs')
 ax1.set_ylabel('Loss')
-# ax1.set_ylim(1e-4, 1)
 ax1.legend(loc='upper right', fancybox=False, framealpha=1, facecolor='white', edgecolor='black')
 
-plt.savefig(f'figs/loss_nrmse_2k_lr{lr:.0e}_rmsprop.png', dpi=300)
+plt.savefig(f'figs/loss_nrmse_2k_lr{lr:.0e}_adam.png', dpi=300)
 plt.show()
 plt.close
 
@@ -258,8 +257,6 @@ plt.legend(bbox_to_anchor=(0.5, -0.4), loc='upper center',
            edgecolor='black', ncol=2, prop={'size': 12})
 plt.xlabel('Time [ns]',fontweight='bold')
 plt.tight_layout()
-plt.savefig(f'figs/prediction_nrmse_2k_lr{lr:.0e}_rmsprop.png', dpi=300, bbox_inches='tight', pad_inches=0.3)
-
-
+plt.savefig(f'figs/prediction_nrmse_2k_lr{lr:.0e}_adam.png', dpi=300, bbox_inches='tight', pad_inches=0.3)
 plt.ylim([-0.01,1.3])
 plt.legend(loc='best',fancybox=True, framealpha=1, facecolor='white', edgecolor='black',ncol=1,prop={'size': 20})
