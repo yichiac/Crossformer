@@ -33,7 +33,7 @@
 "reg": "lds",
 "regweight": 0.015,
 "gradclip": "abs",
-"maxepoch": 500,
+"maxepoch": 100,
 "gpu": true
 },
 "VerilogA": {
