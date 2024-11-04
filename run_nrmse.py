@@ -188,7 +188,7 @@ if __name__ == '__main__':
         #     print("Early stopping")
         #     break
 
-        adjust_learning_rate(optimizer, epoch+1, lr, lradj='type1')
+        adjust_learning_rate(optimizer, epoch+1, lr, lradj='type2')
 
     best_model_path = path+'/'+'checkpoint.pth'
     model.load_state_dict(torch.load(best_model_path))
