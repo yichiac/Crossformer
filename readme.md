@@ -26,5 +26,7 @@ To use our model on the dataset, change `config.json` and our top-level `run_nrm
 
 ## Hardware requirements
 GPU: NVIDIA A100 GPU 40 GB
+
 Memory: 16 GB
-CPUs: 8
+
+Number of CPUs: 8
