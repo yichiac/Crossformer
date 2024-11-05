@@ -42,8 +42,8 @@ if config['training']['loss']=='CE':
             config['model']['normoutputs'][str(i)]=[]
     if config['model']['outclip'] is None:
         config['model']['outclip']='sig_cust'
-rawdata['inset'],config['model']['norminputs']=data.normalize(rawdata['inset'], config['model']['norminputs'])
-rawdata['outset'],config['model']['normoutputs']=data.normalize(rawdata['outset'], config['model']['normoutputs'])
+# rawdata['inset'],config['model']['norminputs']=data.normalize(rawdata['inset'], config['model']['norminputs'])
+# rawdata['outset'],config['model']['normoutputs']=data.normalize(rawdata['outset'], config['model']['normoutputs'])
 
 train_dataset, val_dataset= data.split(rawdata, rate=0.8, shuffle=False, aging=config['circuit']['aging'], \
                             agestep=config['circuit']['agestep'])
