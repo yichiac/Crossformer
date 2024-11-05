@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#SBATCH --time=06:00:00
+#SBATCH --time=12:00:00
 #SBATCH --mem=16G
 #SBATCH --job-name=circuit_nrmse
 #SBATCH --partition=dali

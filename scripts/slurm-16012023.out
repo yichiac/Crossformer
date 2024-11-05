@@ -1,0 +1,229 @@
+cuda
+Epoch: 1 cost time: 6.695616960525513
+Epoch: 1, Steps: 100 | Train Loss: 1.2472058 Vali Loss: 0.7595417
+Epoch: 2 cost time: 6.681830167770386
+Epoch: 2, Steps: 100 | Train Loss: 0.7575657 Vali Loss: 0.7498496
+Epoch: 3 cost time: 6.659122467041016
+Epoch: 3, Steps: 100 | Train Loss: 0.7536485 Vali Loss: 0.7495266
+Epoch: 4 cost time: 6.692135810852051
+Epoch: 4, Steps: 100 | Train Loss: 0.7527012 Vali Loss: 0.7487520
+Epoch: 5 cost time: 6.7509765625
+Epoch: 5, Steps: 100 | Train Loss: 0.7556525 Vali Loss: 0.7511237
+Updating learning rate to 0.005
+Epoch: 6 cost time: 6.6288371086120605
+Epoch: 6, Steps: 100 | Train Loss: 0.7493371 Vali Loss: 0.7478461
+Epoch: 7 cost time: 6.614946603775024
+Epoch: 7, Steps: 100 | Train Loss: 0.7506474 Vali Loss: 0.7494525
+Epoch: 8 cost time: 6.790258884429932
+Epoch: 8, Steps: 100 | Train Loss: 0.7686140 Vali Loss: 0.7526742
+Epoch: 9 cost time: 6.638331890106201
+Epoch: 9, Steps: 100 | Train Loss: 0.7506148 Vali Loss: 0.7483864
+Epoch: 10 cost time: 6.764554262161255
+Epoch: 10, Steps: 100 | Train Loss: 0.7465713 Vali Loss: 0.7445121
+Updating learning rate to 0.0025
+Epoch: 11 cost time: 6.846794366836548
+Epoch: 11, Steps: 100 | Train Loss: 0.7410074 Vali Loss: 0.7426350
+Epoch: 12 cost time: 6.7765052318573
+Epoch: 12, Steps: 100 | Train Loss: 0.7373123 Vali Loss: 0.7479150
+Epoch: 13 cost time: 6.61045503616333
+Epoch: 13, Steps: 100 | Train Loss: 0.7334165 Vali Loss: 0.7571531
+Epoch: 14 cost time: 7.089913606643677
+Epoch: 14, Steps: 100 | Train Loss: 0.7273765 Vali Loss: 0.7386163
+Epoch: 15 cost time: 6.710055351257324
+Epoch: 15, Steps: 100 | Train Loss: 0.7244248 Vali Loss: 0.7358873
+Updating learning rate to 0.00125
+Epoch: 16 cost time: 6.752382755279541
+Epoch: 16, Steps: 100 | Train Loss: 0.7220372 Vali Loss: 0.7376279
+Epoch: 17 cost time: 6.746245384216309
+Epoch: 17, Steps: 100 | Train Loss: 0.7194645 Vali Loss: 0.7302842
+Epoch: 18 cost time: 6.637600660324097
+Epoch: 18, Steps: 100 | Train Loss: 0.7187756 Vali Loss: 0.7271249
+Epoch: 19 cost time: 6.838860750198364
+Epoch: 19, Steps: 100 | Train Loss: 0.7187521 Vali Loss: 0.7266190
+Epoch: 20 cost time: 6.62312388420105
+Epoch: 20, Steps: 100 | Train Loss: 0.7147719 Vali Loss: 0.7323091
+Updating learning rate to 0.000625
+Epoch: 21 cost time: 6.575176239013672
+Epoch: 21, Steps: 100 | Train Loss: 0.7141654 Vali Loss: 0.7230710
+Epoch: 22 cost time: 6.703652620315552
+Epoch: 22, Steps: 100 | Train Loss: 0.7126468 Vali Loss: 0.7231474
+Epoch: 23 cost time: 6.74826455116272
+Epoch: 23, Steps: 100 | Train Loss: 0.7124819 Vali Loss: 0.7187213
+Epoch: 24 cost time: 6.71337628364563
+Epoch: 24, Steps: 100 | Train Loss: 0.7117375 Vali Loss: 0.7174367
+Epoch: 25 cost time: 6.775038003921509
+Epoch: 25, Steps: 100 | Train Loss: 0.7100583 Vali Loss: 0.7173423
+Updating learning rate to 0.0003125
+Epoch: 26 cost time: 6.763782739639282
+Epoch: 26, Steps: 100 | Train Loss: 0.7089149 Vali Loss: 0.7148759
+Epoch: 27 cost time: 6.693382740020752
+Epoch: 27, Steps: 100 | Train Loss: 0.7085751 Vali Loss: 0.7140475
+Epoch: 28 cost time: 6.589349985122681
+Epoch: 28, Steps: 100 | Train Loss: 0.7085064 Vali Loss: 0.7148275
+Epoch: 29 cost time: 6.818642616271973
+Epoch: 29, Steps: 100 | Train Loss: 0.7074912 Vali Loss: 0.7160396
+Epoch: 30 cost time: 6.743587017059326
+Epoch: 30, Steps: 100 | Train Loss: 0.7073165 Vali Loss: 0.7118829
+Epoch: 31 cost time: 6.79518985748291
+Epoch: 31, Steps: 100 | Train Loss: 0.7067806 Vali Loss: 0.7123715
+Epoch: 32 cost time: 6.689089775085449
+Epoch: 32, Steps: 100 | Train Loss: 0.7069895 Vali Loss: 0.7122774
+Epoch: 33 cost time: 6.870824575424194
+Epoch: 33, Steps: 100 | Train Loss: 0.7070540 Vali Loss: 0.7113343
+Epoch: 34 cost time: 6.6852498054504395
+Epoch: 34, Steps: 100 | Train Loss: 0.7070069 Vali Loss: 0.7144356
+Epoch: 35 cost time: 6.754086017608643
+Epoch: 35, Steps: 100 | Train Loss: 0.7075366 Vali Loss: 0.7118161
+Epoch: 36 cost time: 6.6007080078125
+Epoch: 36, Steps: 100 | Train Loss: 0.7075477 Vali Loss: 0.7106029
+Epoch: 37 cost time: 6.628536224365234
+Epoch: 37, Steps: 100 | Train Loss: 0.7065707 Vali Loss: 0.7100796
+Epoch: 38 cost time: 6.624219179153442
+Epoch: 38, Steps: 100 | Train Loss: 0.7067901 Vali Loss: 0.7144788
+Epoch: 39 cost time: 6.849648475646973
+Epoch: 39, Steps: 100 | Train Loss: 0.7061435 Vali Loss: 0.7105640
+Epoch: 40 cost time: 6.767599582672119
+Epoch: 40, Steps: 100 | Train Loss: 0.7063569 Vali Loss: 0.7094287
+Epoch: 41 cost time: 6.829421520233154
+Epoch: 41, Steps: 100 | Train Loss: 0.7058832 Vali Loss: 0.7094339
+Epoch: 42 cost time: 6.711891174316406
+Epoch: 42, Steps: 100 | Train Loss: 0.7056969 Vali Loss: 0.7101331
+Epoch: 43 cost time: 6.598679780960083
+Epoch: 43, Steps: 100 | Train Loss: 0.7062603 Vali Loss: 0.7095755
+Epoch: 44 cost time: 6.823450088500977
+Epoch: 44, Steps: 100 | Train Loss: 0.7060223 Vali Loss: 0.7093567
+Epoch: 45 cost time: 6.645763397216797
+Epoch: 45, Steps: 100 | Train Loss: 0.7059279 Vali Loss: 0.7095843
+Epoch: 46 cost time: 6.697143077850342
+Epoch: 46, Steps: 100 | Train Loss: 0.7051990 Vali Loss: 0.7085594
+Epoch: 47 cost time: 6.73315691947937
+Epoch: 47, Steps: 100 | Train Loss: 0.7049648 Vali Loss: 0.7103514
+Epoch: 48 cost time: 6.617347002029419
+Epoch: 48, Steps: 100 | Train Loss: 0.7049590 Vali Loss: 0.7152738
+Epoch: 49 cost time: 6.679805755615234
+Epoch: 49, Steps: 100 | Train Loss: 0.7059869 Vali Loss: 0.7126383
+Epoch: 50 cost time: 6.846078872680664
+Epoch: 50, Steps: 100 | Train Loss: 0.7050228 Vali Loss: 0.7093357
+Epoch: 51 cost time: 6.679590463638306
+Epoch: 51, Steps: 100 | Train Loss: 0.7057277 Vali Loss: 0.7085038
+Epoch: 52 cost time: 6.857647180557251
+Epoch: 52, Steps: 100 | Train Loss: 0.7046961 Vali Loss: 0.7086408
+Epoch: 53 cost time: 6.665102958679199
+Epoch: 53, Steps: 100 | Train Loss: 0.7047472 Vali Loss: 0.7086925
+Epoch: 54 cost time: 6.6864447593688965
+Epoch: 54, Steps: 100 | Train Loss: 0.7045406 Vali Loss: 0.7093958
+Epoch: 55 cost time: 6.7178685665130615
+Epoch: 55, Steps: 100 | Train Loss: 0.7040928 Vali Loss: 0.7094794
+Epoch: 56 cost time: 6.7963550090789795
+Epoch: 56, Steps: 100 | Train Loss: 0.7039277 Vali Loss: 0.7086359
+Epoch: 57 cost time: 6.512248277664185
+Epoch: 57, Steps: 100 | Train Loss: 0.7042524 Vali Loss: 0.7084821
+Epoch: 58 cost time: 6.802250862121582
+Epoch: 58, Steps: 100 | Train Loss: 0.7033177 Vali Loss: 0.7087941
+Epoch: 59 cost time: 6.738880634307861
+Epoch: 59, Steps: 100 | Train Loss: 0.7033723 Vali Loss: 0.7093681
+Epoch: 60 cost time: 6.662423849105835
+Epoch: 60, Steps: 100 | Train Loss: 0.7036383 Vali Loss: 0.7078509
+Epoch: 61 cost time: 6.600414276123047
+Epoch: 61, Steps: 100 | Train Loss: 0.7044361 Vali Loss: 0.7074821
+Epoch: 62 cost time: 6.699446439743042
+Epoch: 62, Steps: 100 | Train Loss: 0.7031429 Vali Loss: 0.7069168
+Epoch: 63 cost time: 6.702282905578613
+Epoch: 63, Steps: 100 | Train Loss: 0.7022555 Vali Loss: 0.7078437
+Epoch: 64 cost time: 6.6953346729278564
+Epoch: 64, Steps: 100 | Train Loss: 0.7021505 Vali Loss: 0.7161877
+Epoch: 65 cost time: 6.764313220977783
+Epoch: 65, Steps: 100 | Train Loss: 0.7048578 Vali Loss: 0.7068265
+Epoch: 66 cost time: 6.65742039680481
+Epoch: 66, Steps: 100 | Train Loss: 0.7020144 Vali Loss: 0.7087722
+Epoch: 67 cost time: 6.610110759735107
+Epoch: 67, Steps: 100 | Train Loss: 0.7017604 Vali Loss: 0.7064906
+Epoch: 68 cost time: 6.710825443267822
+Epoch: 68, Steps: 100 | Train Loss: 0.7030145 Vali Loss: 0.7065919
+Epoch: 69 cost time: 6.75775146484375
+Epoch: 69, Steps: 100 | Train Loss: 0.7023773 Vali Loss: 0.7064607
+Epoch: 70 cost time: 6.701231002807617
+Epoch: 70, Steps: 100 | Train Loss: 0.7016684 Vali Loss: 0.7078763
+Epoch: 71 cost time: 6.735929727554321
+Epoch: 71, Steps: 100 | Train Loss: 0.7027945 Vali Loss: 0.7065229
+Epoch: 72 cost time: 6.537930488586426
+Epoch: 72, Steps: 100 | Train Loss: 0.7010258 Vali Loss: 0.7090390
+Epoch: 73 cost time: 6.811024904251099
+Epoch: 73, Steps: 100 | Train Loss: 0.7008859 Vali Loss: 0.7062059
+Epoch: 74 cost time: 6.611895322799683
+Epoch: 74, Steps: 100 | Train Loss: 0.7003214 Vali Loss: 0.7071197
+Epoch: 75 cost time: 6.763581991195679
+Epoch: 75, Steps: 100 | Train Loss: 0.6999929 Vali Loss: 0.7087029
+Epoch: 76 cost time: 6.75268030166626
+Epoch: 76, Steps: 100 | Train Loss: 0.7012217 Vali Loss: 0.7055164
+Epoch: 77 cost time: 6.723755359649658
+Epoch: 77, Steps: 100 | Train Loss: 0.7021460 Vali Loss: 0.7083596
+Epoch: 78 cost time: 6.695898532867432
+Epoch: 78, Steps: 100 | Train Loss: 0.7023010 Vali Loss: 0.7053815
+Epoch: 79 cost time: 6.63919472694397
+Epoch: 79, Steps: 100 | Train Loss: 0.7007590 Vali Loss: 0.7068500
+Epoch: 80 cost time: 6.908395290374756
+Epoch: 80, Steps: 100 | Train Loss: 0.7005131 Vali Loss: 0.7055159
+Epoch: 81 cost time: 6.658731698989868
+Epoch: 81, Steps: 100 | Train Loss: 0.6994354 Vali Loss: 0.7068883
+Epoch: 82 cost time: 6.813893795013428
+Epoch: 82, Steps: 100 | Train Loss: 0.6997121 Vali Loss: 0.7078632
+Epoch: 83 cost time: 6.856251239776611
+Epoch: 83, Steps: 100 | Train Loss: 0.6997821 Vali Loss: 0.7080318
+Epoch: 84 cost time: 6.505188941955566
+Epoch: 84, Steps: 100 | Train Loss: 0.6985493 Vali Loss: 0.7080022
+Epoch: 85 cost time: 6.726023197174072
+Epoch: 85, Steps: 100 | Train Loss: 0.6990460 Vali Loss: 0.7078950
+Epoch: 86 cost time: 6.601613283157349
+Epoch: 86, Steps: 100 | Train Loss: 0.6983506 Vali Loss: 0.7051464
+Epoch: 87 cost time: 6.676642656326294
+Epoch: 87, Steps: 100 | Train Loss: 0.6992351 Vali Loss: 0.7089677
+Epoch: 88 cost time: 6.538290023803711
+Epoch: 88, Steps: 100 | Train Loss: 0.6987744 Vali Loss: 0.7057431
+Epoch: 89 cost time: 6.74837589263916
+Epoch: 89, Steps: 100 | Train Loss: 0.6977748 Vali Loss: 0.7073271
+Epoch: 90 cost time: 6.602366924285889
+Epoch: 90, Steps: 100 | Train Loss: 0.6974799 Vali Loss: 0.7074721
+Epoch: 91 cost time: 7.02352499961853
+Epoch: 91, Steps: 100 | Train Loss: 0.6974791 Vali Loss: 0.7078593
+Epoch: 92 cost time: 6.602632999420166
+Epoch: 92, Steps: 100 | Train Loss: 0.6968975 Vali Loss: 0.7071478
+Epoch: 93 cost time: 6.6579930782318115
+Epoch: 93, Steps: 100 | Train Loss: 0.6984195 Vali Loss: 0.7063986
+Epoch: 94 cost time: 6.574414968490601
+Epoch: 94, Steps: 100 | Train Loss: 0.6964828 Vali Loss: 0.7032223
+Epoch: 95 cost time: 6.663173675537109
+Epoch: 95, Steps: 100 | Train Loss: 0.6854076 Vali Loss: 0.6891213
+Epoch: 96 cost time: 6.770539283752441
+Epoch: 96, Steps: 100 | Train Loss: 0.6807193 Vali Loss: 0.6896137
+Epoch: 97 cost time: 6.8101584911346436
+Epoch: 97, Steps: 100 | Train Loss: 0.6769915 Vali Loss: 0.6878951
+Epoch: 98 cost time: 6.8470213413238525
+Epoch: 98, Steps: 100 | Train Loss: 0.6729737 Vali Loss: 0.6799744
+Epoch: 99 cost time: 6.5412678718566895
+Epoch: 99, Steps: 100 | Train Loss: 0.6701631 Vali Loss: 0.6804870
+Epoch: 100 cost time: 6.895800828933716
+Epoch: 100, Steps: 100 | Train Loss: 0.6700600 Vali Loss: 0.6788236
+Epoch: 101 cost time: 6.733432054519653
+Epoch: 101, Steps: 100 | Train Loss: 0.6649201 Vali Loss: 0.6692660
+Plotting loss...
+Traceback (most recent call last):
+  File "/home/yichia3/Crossformer/run_nrmse.py", line 215, in <module>
+    plt.savefig(f'figs/loss_nrmse_2k_lr{lr:.0e}_adam.png', dpi=300)
+  File "/projects/dali/yichia3/envs/dali/lib/python3.10/site-packages/matplotlib/pyplot.py", line 1228, in savefig
+    res = fig.savefig(*args, **kwargs)  # type: ignore[func-returns-value]
+  File "/projects/dali/yichia3/envs/dali/lib/python3.10/site-packages/matplotlib/figure.py", line 3395, in savefig
+    self.canvas.print_figure(fname, **kwargs)
+  File "/projects/dali/yichia3/envs/dali/lib/python3.10/site-packages/matplotlib/backend_bases.py", line 2204, in print_figure
+    result = print_method(
+  File "/projects/dali/yichia3/envs/dali/lib/python3.10/site-packages/matplotlib/backend_bases.py", line 2054, in <lambda>
+    print_method = functools.wraps(meth)(lambda *args, **kwargs: meth(
+  File "/projects/dali/yichia3/envs/dali/lib/python3.10/site-packages/matplotlib/backends/backend_agg.py", line 496, in print_png
+    self._print_pil(filename_or_obj, "png", pil_kwargs, metadata)
+  File "/projects/dali/yichia3/envs/dali/lib/python3.10/site-packages/matplotlib/backends/backend_agg.py", line 445, in _print_pil
+    mpl.image.imsave(
+  File "/projects/dali/yichia3/envs/dali/lib/python3.10/site-packages/matplotlib/image.py", line 1676, in imsave
+    image.save(fname, **pil_kwargs)
+  File "/projects/dali/yichia3/envs/dali/lib/python3.10/site-packages/PIL/Image.py", line 2563, in save
+    fp = builtins.open(filename, "w+b")
+FileNotFoundError: [Errno 2] No such file or directory: '/home/yichia3/Crossformer/figs/loss_nrmse_2k_lr1e-02_adam.png'
