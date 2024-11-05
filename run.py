@@ -122,6 +122,8 @@ def vali(model, vali_loader, l):
             # true = insample
             true = sample['outset'][:,0:l,:].to(device)
             pred = model(insample)
+            print('pred shape:', pred.shape)
+            print('true shape:', true.shape)
             loss = NRMSE(pred, true)
             total_loss.append(loss.item())
 
