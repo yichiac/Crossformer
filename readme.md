@@ -24,3 +24,7 @@ python run_nrmse.py
 
 To use our model on the dataset, change `config.json` and our top-level `run_nrmse.py`.
 
+## Hardware requirements
+GPU: NVIDIA A100 GPU 40 GB
+Memory: 16 GB
+CPUs: 8
