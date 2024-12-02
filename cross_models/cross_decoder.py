@@ -52,7 +52,7 @@ class Decoder(nn.Module):
     The decoder of Crossformer, making the final prediction by adding up predictions at each scale
     '''
     def __init__(self, seg_len, d_layers, d_model, n_heads, d_ff, dropout,\
-                router=False, out_seg_num = 10, factor=10, kan_width=None, kan_depth=None):
+                router=False, out_seg_num = 10, factor=10, kan_in_dim=3, kan_out_dim=2):
         super(Decoder, self).__init__()
 
         self.router = router
@@ -62,15 +62,17 @@ class Decoder(nn.Module):
                                         out_seg_num, factor))
 
         # self.fc_out = nn.Linear(3, 2) # reproject for the circuit dataset
-        if kan_width is None:
-            kan_width = [3, 5, 2]  # Input dim 3, hidden layer of 5 neurons, output dim 2
-        if kan_depth is None:
-            kan_depth = 3  # Number of layers in KAN
+        # if kan_width is None:
+        #     kan_width = [3, 5, 2]  # Input dim 3, hidden layer of 5 neurons, output dim 2
+        # if kan_depth is None:
+        #     kan_depth = 3  # Number of layers in KAN
 
         self.kan_out = KAN(
-            layers=kan_width,
-            dropout=dropout,
-            depth=kan_depth
+            width=[kan_in_dim, kan_out_dim],  # Try this if 'layers' doesn't work
+            # or try alternative parameter names like:
+            # layers=[kan_in_dim, kan_out_dim],
+            # in_dim=kan_in_dim,
+            # out_dim=kan_out_dim
         )
 
     def forward(self, x, cross):
