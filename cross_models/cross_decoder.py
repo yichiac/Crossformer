@@ -62,18 +62,7 @@ class Decoder(nn.Module):
                                         out_seg_num, factor))
 
         # self.fc_out = nn.Linear(3, 2) # reproject for the circuit dataset
-        # if kan_width is None:
-        #     kan_width = [3, 5, 2]  # Input dim 3, hidden layer of 5 neurons, output dim 2
-        # if kan_depth is None:
-        #     kan_depth = 3  # Number of layers in KAN
-
-        self.kan_out = KAN(
-            width=[kan_in_dim, kan_out_dim],  # Try this if 'layers' doesn't work
-            # or try alternative parameter names like:
-            # layers=[kan_in_dim, kan_out_dim],
-            # in_dim=kan_in_dim,
-            # out_dim=kan_out_dim
-        )
+        self.kan_out = KAN(width=[kan_in_dim, kan_out_dim])
 
     def forward(self, x, cross):
         final_predict = None
@@ -91,6 +80,10 @@ class Decoder(nn.Module):
 
         final_predict = rearrange(final_predict, 'b (out_d seg_num) seg_len -> b (seg_num seg_len) out_d', out_d = ts_d)
         # final_predict = self.fc_out(final_predict)
+
+        batch_size = final_predict.shape[0]
+        final_predict = final_predict.view(batch_size, -1, 3)  # Assuming 3 is the original input dimension
+
         final_predict = self.kan_out(final_predict)
 
         return final_predict
