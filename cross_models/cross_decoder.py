@@ -81,9 +81,27 @@ class Decoder(nn.Module):
         final_predict = rearrange(final_predict, 'b (out_d seg_num) seg_len -> b (seg_num seg_len) out_d', out_d = ts_d)
         # final_predict = self.fc_out(final_predict)
 
-        batch_size = final_predict.shape[0]
-        final_predict = final_predict.view(batch_size, -1, 3)  # Assuming 3 is the original input dimension
+        # batch_size = final_predict.shape[0]
+        # final_predict = final_predict.view(batch_size, -1, 3)  # Assuming 3 is the original input dimension
 
-        final_predict = self.kan_out(final_predict)
+        # final_predict = self.kan_out(final_predict)
+
+        print("Final predict shape:", final_predict.shape)
+        print("Final predict dtype:", final_predict.dtype)
+
+        try:
+            # Most aggressive reshaping
+            batch_size = final_predict.shape[0]
+            final_predict_reshaped = final_predict.reshape(batch_size, -1, 3)
+
+            # Try KAN
+            kan_output = self.kan_out(final_predict_reshaped)
+            return kan_output
+
+        except Exception as e:
+            print(f"KAN processing failed: {e}")
+            # Fallback to linear layer
+            fallback_output = self.fallback_linear(final_predict)
+            return fallback_output
 
         return final_predict
