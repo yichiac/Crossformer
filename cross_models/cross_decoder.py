@@ -3,6 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from einops import rearrange, repeat
 from cross_models.attn import FullAttention, AttentionLayer, TwoStageAttentionLayer
+# from kan import KAN
 
 class DecoderLayer(nn.Module):
     '''
