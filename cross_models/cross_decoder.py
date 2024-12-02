@@ -81,9 +81,10 @@ class Decoder(nn.Module):
         final_predict = rearrange(final_predict, 'b (out_d seg_num) seg_len -> b (seg_num seg_len) out_d', out_d = ts_d)
         # final_predict = self.fc_out(final_predict)
 
-        batch_size = final_predict.shape[0]
-        final_predict = final_predict.reshape(batch_size, 3, -1)
+        # batch_size = final_predict.shape[0]
+        # final_predict = final_predict.reshape(batch_size, 3, -1)
 
+        print(final_predict.shape)
         final_predict = self.kan_out(final_predict)
 
         return final_predict
