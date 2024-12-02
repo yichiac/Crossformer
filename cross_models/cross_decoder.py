@@ -82,7 +82,7 @@ class Decoder(nn.Module):
         # final_predict = self.fc_out(final_predict)
 
         batch_size = final_predict.shape[0]
-        final_predict = final_predict.view(batch_size, 3, -1)
+        final_predict = final_predict.reshape(batch_size, 3, -1)
 
         final_predict = self.kan_out(final_predict)
 
