@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from einops import rearrange, repeat
 from cross_models.attn import FullAttention, AttentionLayer, TwoStageAttentionLayer
-# from kan import KAN
+from kan import KAN
 
 class DecoderLayer(nn.Module):
     '''
@@ -61,7 +61,15 @@ class Decoder(nn.Module):
             self.decode_layers.append(DecoderLayer(seg_len, d_model, n_heads, d_ff, dropout, \
                                         out_seg_num, factor))
 
-        self.fc_out = nn.Linear(3, 2) # reproject for the circuit dataset
+        # self.fc_out = nn.Linear(3, 2) # reproject for the circuit dataset
+        kan_width = kan_width or [3, 5, 2]  # Input dim 3, hidden layer of 5 neurons, output dim 2
+        kan_depth = kan_depth or 3  # Number of layers in KAN
+
+        self.kan_out = KAN(
+            layers=kan_width,
+            dropout=dropout,
+            depth=kan_depth
+        )
 
     def forward(self, x, cross):
         final_predict = None
@@ -78,6 +86,7 @@ class Decoder(nn.Module):
             i += 1
 
         final_predict = rearrange(final_predict, 'b (out_d seg_num) seg_len -> b (seg_num seg_len) out_d', out_d = ts_d)
-        final_predict = self.fc_out(final_predict)
+        # final_predict = self.fc_out(final_predict)
+        final_predict = self.kan_out(final_predict)
 
         return final_predict
