@@ -3,6 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from einops import rearrange, repeat
 import numpy as np
+from kan import KAN
 
 from math import sqrt
 
@@ -14,7 +15,7 @@ class FullAttention(nn.Module):
         super(FullAttention, self).__init__()
         self.scale = scale
         self.dropout = nn.Dropout(attention_dropout)
-        
+
     def forward(self, queries, keys, values):
         B, L, H, E = queries.shape
         _, S, _, D = values.shape
@@ -23,7 +24,7 @@ class FullAttention(nn.Module):
         scores = torch.einsum("blhe,bshe->bhls", queries, keys)
         A = self.dropout(torch.softmax(scale * scores, dim=-1))
         V = torch.einsum("bhls,bshd->blhd", A, values)
-        
+
         return V.contiguous()
 
 
@@ -75,7 +76,7 @@ class TwoStageAttentionLayer(nn.Module):
         self.dim_sender = AttentionLayer(d_model, n_heads, dropout = dropout)
         self.dim_receiver = AttentionLayer(d_model, n_heads, dropout = dropout)
         self.router = nn.Parameter(torch.randn(seg_num, factor, d_model))
-        
+
         self.dropout = nn.Dropout(dropout)
 
         self.norm1 = nn.LayerNorm(d_model)
@@ -83,12 +84,20 @@ class TwoStageAttentionLayer(nn.Module):
         self.norm3 = nn.LayerNorm(d_model)
         self.norm4 = nn.LayerNorm(d_model)
 
-        self.MLP1 = nn.Sequential(nn.Linear(d_model, d_ff),
-                                nn.GELU(),
-                                nn.Linear(d_ff, d_model))
-        self.MLP2 = nn.Sequential(nn.Linear(d_model, d_ff),
-                                nn.GELU(),
-                                nn.Linear(d_ff, d_model))
+        # self.MLP1 = nn.Sequential(nn.Linear(d_model, d_ff),
+        #                         nn.GELU(),
+        #                         nn.Linear(d_ff, d_model))
+        # self.MLP2 = nn.Sequential(nn.Linear(d_model, d_ff),
+        #                         nn.GELU(),
+        #                         nn.Linear(d_ff, d_model))
+
+        # Replace MLPs with KAN layers
+        self.MLP1 = nn.Sequential(
+            KAN([d_model, d_ff, d_model])
+        )
+        self.MLP2 = nn.Sequential(
+            KAN([d_model, d_ff, d_model])
+        )
 
     def forward(self, x):
         #Cross Time Stage: Directly apply MSA to each dimension
