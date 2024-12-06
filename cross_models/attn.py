@@ -4,6 +4,8 @@ import torch.nn.functional as F
 from einops import rearrange, repeat
 import numpy as np
 from kan import KAN
+from kan import KANLinear
+
 
 from math import sqrt
 
@@ -92,11 +94,9 @@ class TwoStageAttentionLayer(nn.Module):
                                 nn.Linear(d_ff, d_model))
 
         # Replace MLPs with KAN layers
-        self.MLP1 = nn.Sequential(
-            KAN([d_model, 5, d_ff]),
-            nn.GELU(),
-            KAN([d_ff, 5, d_model])
-        )
+        # self.kanlayer1 = KANLinear(d_model, d_ff)
+        # self.kanlayer2 = KANLinear(d_ff, d_model)
+
         # self.MLP2 = nn.Sequential(
         #     KAN([d_model, d_ff, d_model])
         # )
@@ -110,7 +110,11 @@ class TwoStageAttentionLayer(nn.Module):
         )
         dim_in = time_in + self.dropout(time_enc)
         dim_in = self.norm1(dim_in)
-        dim_in = dim_in + self.dropout(self.MLP1(dim_in))
+        # dim_in = dim_in + self.dropout(self.MLP1(dim_in))
+        dim_in = KANLinear(dim_in)
+        dim_in = F.relu(dim_in)
+        dim_in = KANLinear(dim_in)
+        dim_in = dim_in + self.dropout(dim_in)
         dim_in = self.norm2(dim_in)
 
         #Cross Dimension Stage: use a small set of learnable vectors to aggregate and distribute messages to build the D-to-D connection
