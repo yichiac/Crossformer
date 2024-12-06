@@ -93,7 +93,9 @@ class TwoStageAttentionLayer(nn.Module):
 
         # Replace MLPs with KAN layers
         self.MLP1 = nn.Sequential(
-            KAN([d_model, d_ff, d_model])
+            KAN([d_model, 5, d_ff]),
+            nn.GELU(),
+            KAN([d_ff, 5, d_model])
         )
         # self.MLP2 = nn.Sequential(
         #     KAN([d_model, d_ff, d_model])
