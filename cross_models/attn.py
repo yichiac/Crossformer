@@ -4,7 +4,7 @@ import torch.nn.functional as F
 from einops import rearrange, repeat
 import numpy as np
 from kan import KAN
-from kan import KANLinear
+from kan import KANLayer
 
 
 from math import sqrt
@@ -111,9 +111,9 @@ class TwoStageAttentionLayer(nn.Module):
         dim_in = time_in + self.dropout(time_enc)
         dim_in = self.norm1(dim_in)
         # dim_in = dim_in + self.dropout(self.MLP1(dim_in))
-        dim_in = KANLinear(dim_in)
+        dim_in = KANLayer(dim_in)
         dim_in = F.relu(dim_in)
-        dim_in = KANLinear(dim_in)
+        dim_in = KANLayer(dim_in)
         dim_in = dim_in + self.dropout(dim_in)
         dim_in = self.norm2(dim_in)
 
