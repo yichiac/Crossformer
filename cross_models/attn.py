@@ -87,17 +87,17 @@ class TwoStageAttentionLayer(nn.Module):
         # self.MLP1 = nn.Sequential(nn.Linear(d_model, d_ff),
         #                         nn.GELU(),
         #                         nn.Linear(d_ff, d_model))
-        # self.MLP2 = nn.Sequential(nn.Linear(d_model, d_ff),
-        #                         nn.GELU(),
-        #                         nn.Linear(d_ff, d_model))
+        self.MLP2 = nn.Sequential(nn.Linear(d_model, d_ff),
+                                nn.GELU(),
+                                nn.Linear(d_ff, d_model))
 
         # Replace MLPs with KAN layers
         self.MLP1 = nn.Sequential(
             KAN([d_model, d_ff, d_model])
         )
-        self.MLP2 = nn.Sequential(
-            KAN([d_model, d_ff, d_model])
-        )
+        # self.MLP2 = nn.Sequential(
+        #     KAN([d_model, d_ff, d_model])
+        # )
 
     def forward(self, x):
         #Cross Time Stage: Directly apply MSA to each dimension
