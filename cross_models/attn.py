@@ -110,11 +110,15 @@ class TwoStageAttentionLayer(nn.Module):
         )
         dim_in = time_in + self.dropout(time_enc)
         dim_in = self.norm1(dim_in)
-        # dim_in = dim_in + self.dropout(self.MLP1(dim_in))
+        dim_in2 = dim_in + self.dropout(self.MLP1(dim_in))
+        print('dim_in original', dim_in2.shape)
+
         dim_in = KANLayer(dim_in)
         dim_in = F.relu(dim_in)
         dim_in = KANLayer(dim_in)
         dim_in = dim_in + self.dropout(dim_in)
+        print('dim_in kan', dim_in.shape)
+
         dim_in = self.norm2(dim_in)
 
         #Cross Dimension Stage: use a small set of learnable vectors to aggregate and distribute messages to build the D-to-D connection
