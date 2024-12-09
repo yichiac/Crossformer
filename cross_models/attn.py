@@ -3,8 +3,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 from einops import rearrange, repeat
 import numpy as np
-from kan import KAN
-from kan import KANLayer
+# from kan import KAN
+# from kan import KANLayer
 
 
 from math import sqrt
