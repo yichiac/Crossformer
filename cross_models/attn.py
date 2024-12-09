@@ -94,14 +94,10 @@ class TwoStageAttentionLayer(nn.Module):
                                 nn.Linear(d_ff, d_model))
 
         # Replace MLPs with KAN layers
-        print('d_model: ', d_model)
-        print('d_ff: ', d_ff)
-        self.kanlayer1 = KANLayer(d_model, d_ff)
-        self.kanlayer2 = KANLayer(d_ff, d_model)
-
-        # self.MLP2 = nn.Sequential(
-        #     KAN([d_model, d_ff, d_model])
-        # )
+        # print('d_model: ', d_model)
+        # print('d_ff: ', d_ff)
+        # self.kanlayer1 = KANLayer(d_model, d_ff)
+        # self.kanlayer2 = KANLayer(d_ff, d_model)
 
     def forward(self, x):
         #Cross Time Stage: Directly apply MSA to each dimension
@@ -112,16 +108,14 @@ class TwoStageAttentionLayer(nn.Module):
         )
         dim_in = time_in + self.dropout(time_enc)
         dim_in = self.norm1(dim_in)
-        dim_in2 = dim_in + self.dropout(self.MLP1(dim_in))
-        print('dim_in original', dim_in2.shape)
-
-        print('input kan dim_in shape: ', dim_in.shape)
-        dim_in = self.kanlayer1(dim_in)
-        dim_in = F.relu(dim_in)
-        dim_in = self.kanlayer2(dim_in)
-        dim_in = dim_in + self.dropout(dim_in)
-        print('dim_in kan', dim_in.shape)
-
+        dim_in = dim_in + self.dropout(self.MLP1(dim_in))
+        # print('dim_in original', dim_in2.shape)
+        # print('input kan dim_in shape: ', dim_in.shape)
+        # dim_in = self.kanlayer1(dim_in)
+        # dim_in = F.relu(dim_in)
+        # dim_in = self.kanlayer2(dim_in)
+        # dim_in = dim_in + self.dropout(dim_in)
+        # print('dim_in kan', dim_in.shape)
         dim_in = self.norm2(dim_in)
 
         #Cross Dimension Stage: use a small set of learnable vectors to aggregate and distribute messages to build the D-to-D connection
