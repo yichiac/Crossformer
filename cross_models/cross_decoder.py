@@ -62,7 +62,7 @@ class Decoder(nn.Module):
                                         out_seg_num, factor))
 
         # self.fc_out = nn.Linear(3, 2) # reproject for the circuit dataset
-        self.kan_out = KAN(width=[3, 5, 2], grid=5, k=3, seed=0) # reproject for the circuit dataset
+        self.kan_out = KAN(width=[3, 5, 2], grid=50, k=3, seed=0) # reproject for the circuit dataset
 
     def forward(self, x, cross):
         final_predict = None
