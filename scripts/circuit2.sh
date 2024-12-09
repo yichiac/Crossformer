@@ -13,5 +13,5 @@
 #SBATCH --mail-type=END
 #SBATCH --mail-type=FAIL
 
-cd ~/crossformer
+cd ~/Crossformer
 python run.py --n 10 --grid 5 --k 3 --seed 0
