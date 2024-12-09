@@ -228,7 +228,8 @@ ax1.set_ylabel('Loss')
 # ax1.set_ylim(1e-4, 1)
 ax1.legend(loc='upper right', fancybox=False, framealpha=1, facecolor='white', edgecolor='black')
 
-plt.savefig('figs/loss_kan.png', dpi=300)
+# plt.savefig('figs/loss_kan.png', dpi=300)
+plt.savefig(f'figs/loss_kan_n{cli_args.n}_grid{cli_args.grid}_k{cli_args.k}.png', dpi=300)
 plt.show()
 plt.close
 
@@ -275,7 +276,9 @@ plt.legend(bbox_to_anchor=(0.5, -0.4), loc='upper center',
            edgecolor='black', ncol=2, prop={'size': 12})
 plt.xlabel('Time [ns]',fontweight='bold')
 plt.tight_layout()
-plt.savefig('figs/prediction_kan.png', dpi=300, bbox_inches='tight', pad_inches=0.3)
+# plt.savefig('figs/prediction_kan.png', dpi=300, bbox_inches='tight', pad_inches=0.3)
+plt.savefig(f'figs/prediction_kan_n{cli_args.n}_grid{cli_args.grid}_k{cli_args.k}.png', dpi=300, bbox_inches='tight', pad_inches=0.3)
+
 
 # plt.ylim([-0.01,1.3])
 # plt.legend(loc='best',fancybox=True, framealpha=1, facecolor='white', edgecolor='black',ncol=1,prop={'size': 20})

@@ -63,7 +63,6 @@ class Decoder(nn.Module):
 
         # reproject for the circuit dataset
         # self.fc_out = nn.Linear(3, 2)
-        print('kan n, grid, k, seed: ', n, grid, k, seed)
         self.kan_out = KAN(width=[3, n, 2], grid=grid, k=k, seed=seed)
 
     def forward(self, x, cross):
