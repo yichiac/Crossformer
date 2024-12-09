@@ -86,16 +86,18 @@ class TwoStageAttentionLayer(nn.Module):
         self.norm3 = nn.LayerNorm(d_model)
         self.norm4 = nn.LayerNorm(d_model)
 
-        # self.MLP1 = nn.Sequential(nn.Linear(d_model, d_ff),
-        #                         nn.GELU(),
-        #                         nn.Linear(d_ff, d_model))
+        self.MLP1 = nn.Sequential(nn.Linear(d_model, d_ff),
+                                nn.GELU(),
+                                nn.Linear(d_ff, d_model))
         self.MLP2 = nn.Sequential(nn.Linear(d_model, d_ff),
                                 nn.GELU(),
                                 nn.Linear(d_ff, d_model))
 
         # Replace MLPs with KAN layers
-        # self.kanlayer1 = KANLinear(d_model, d_ff)
-        # self.kanlayer2 = KANLinear(d_ff, d_model)
+        print('d_model: ', d_model)
+        print('d_ff: ', d_ff)
+        self.kanlayer1 = KANLayer(d_model, d_ff)
+        self.kanlayer2 = KANLayer(d_ff, d_model)
 
         # self.MLP2 = nn.Sequential(
         #     KAN([d_model, d_ff, d_model])
@@ -113,9 +115,10 @@ class TwoStageAttentionLayer(nn.Module):
         dim_in2 = dim_in + self.dropout(self.MLP1(dim_in))
         print('dim_in original', dim_in2.shape)
 
-        dim_in = KANLayer(dim_in)
+        print('input kan dim_in shape: ', dim_in.shape)
+        dim_in = self.kanlayer1(dim_in)
         dim_in = F.relu(dim_in)
-        dim_in = KANLayer(dim_in)
+        dim_in = self.kanlayer2(dim_in)
         dim_in = dim_in + self.dropout(dim_in)
         print('dim_in kan', dim_in.shape)
 
