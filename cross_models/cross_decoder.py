@@ -52,7 +52,7 @@ class Decoder(nn.Module):
     The decoder of Crossformer, making the final prediction by adding up predictions at each scale
     '''
     def __init__(self, seg_len, d_layers, d_model, n_heads, d_ff, dropout,\
-                router=False, out_seg_num = 10, factor=10):
+                router=False, out_seg_num = 10, factor=10, n=5, grid=5, k=3, seed=0):
         super(Decoder, self).__init__()
 
         self.router = router
@@ -61,8 +61,10 @@ class Decoder(nn.Module):
             self.decode_layers.append(DecoderLayer(seg_len, d_model, n_heads, d_ff, dropout, \
                                         out_seg_num, factor))
 
-        # self.fc_out = nn.Linear(3, 2) # reproject for the circuit dataset
-        self.kan_out = KAN(width=[3, 5, 2], grid=50, k=3, seed=0) # reproject for the circuit dataset
+        # reproject for the circuit dataset
+        # self.fc_out = nn.Linear(3, 2)
+        print('kan n, grid, k, seed: ', n, grid, k, seed)
+        self.kan_out = KAN(width=[3, n, 2], grid=grid, k=k, seed=seed)
 
     def forward(self, x, cross):
         final_predict = None

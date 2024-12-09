@@ -14,6 +14,17 @@ import numpy as np
 import json
 import time
 import os
+import argparse
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="Modify KAN parameters via CLI")
+    parser.add_argument("--n", type=int, default=5, help="Neurons for KAN")
+    parser.add_argument("--grid", type=int, default=5, help="Grid size for KAN")
+    parser.add_argument("--k", type=int, default=3, help="Value of k for KAN")
+    parser.add_argument("--seed", type=int, default=0, help="Random seed for KAN")
+    return parser.parse_args()
+
+cli_args = parse_args()
 
 
 with open("./config.json") as f:
@@ -72,16 +83,25 @@ args = {'data_dim': 3,
         'dropout': 0.0,
         'baseline': False,
         'iter': 1,
-        'reproj': 'fc'
+        'reproj': 'kan',
+        'n': cli_args.n,
+        'grid': cli_args.grid,
+        'k': cli_args.k,
+        'seed': cli_args.seed,
         }
 
 # model = CrossformerCircuit(data_dim=5, in_len=501, out_len=501, seg_len=6, win_size=4,
 #                 factor=10, d_model=256, d_ff=512, n_heads=8, e_layers=3,
 #                 dropout=0.0, baseline = False) #, device=torch.device('cuda:0'))
 
-setting = 'Crossformer_{}_il{}_ol{}_sl{}_win{}_fa{}_dm{}_nh{}_el{}_itr{}_reproj_{}'.format('circuit',
-            args['in_len'], args['out_len'], args['seg_len'], args['win_size'], args['factor'],
-            args['d_model'], args['n_heads'], args['e_layers'], args['iter'], args['reproj'])
+# setting = 'Crossformer_{}_il{}_ol{}_sl{}_win{}_fa{}_dm{}_nh{}_el{}_itr{}_reproj_{}'.format('circuit',
+#             args['in_len'], args['out_len'], args['seg_len'], args['win_size'], args['factor'],
+#             args['d_model'], args['n_heads'], args['e_layers'], args['iter'], args['reproj'])
+setting = 'Crossformer_{}_il{}_ol{}_sl{}_win{}_fa{}_dm{}_nh{}_el{}_itr{}_reproj_{}_grid{}_k{}_seed{}'.format(
+    'circuit', args['in_len'], args['out_len'], args['seg_len'], args['win_size'], args['factor'],
+    args['d_model'], args['n_heads'], args['e_layers'], args['iter'], args['reproj'],
+    args['n'], args['grid'], args['k'], args['seed']
+)
 path = os.path.join('./checkpoints/', setting)
 if not os.path.exists(path):
     os.makedirs(path)
@@ -97,7 +117,11 @@ model = CrossformerCircuit(data_dim=args['data_dim'],
                            n_heads=args['n_heads'],
                            e_layers=args['e_layers'],
                            dropout=args['dropout'],
-                           baseline=args['baseline'])
+                           baseline=args['baseline'],
+                           n=args['n'],
+                           grid=args['grid'],
+                           k=args['k'],
+                           seed=args['seed'])
 
 
 model.to(device)

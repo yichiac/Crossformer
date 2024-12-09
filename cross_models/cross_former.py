@@ -68,16 +68,17 @@ class Crossformer(nn.Module):
 class CrossformerCircuit(nn.Module):
     def __init__(self, data_dim, in_len, out_len, seg_len, win_size = 4,
                 factor=10, d_model=512, d_ff = 1024, n_heads=8, e_layers=3,
-                dropout=0.0, baseline = False, device=torch.device('cuda:0')):
+                dropout=0.0, baseline = False, n=5, grid=5, k=3, seed=0, device=torch.device('cuda:0')):
         super(CrossformerCircuit, self).__init__()
         self.data_dim = data_dim
         self.in_len = in_len
         self.out_len = out_len
         self.seg_len = seg_len
         self.merge_win = win_size
-
         self.baseline = baseline
-
+        self.n = n
+        self.grid = grid
+        self.k = k
         self.device = device
 
         # The padding operation to handle invisible sgemnet length
@@ -97,7 +98,8 @@ class CrossformerCircuit(nn.Module):
         # Decoder
         self.dec_pos_embedding = nn.Parameter(torch.randn(1, data_dim, (self.pad_out_len // seg_len), d_model))
         self.decoder = Decoder(seg_len, e_layers + 1, d_model, n_heads, d_ff, dropout, \
-                                    out_seg_num = (self.pad_out_len // seg_len), factor = factor)
+                                    out_seg_num = (self.pad_out_len // seg_len), factor = factor, \
+                                        n=n, grid=grid, k=k, seed=seed)
 
     def forward(self, x_seq):
         if (self.baseline):
