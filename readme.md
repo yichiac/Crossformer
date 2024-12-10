@@ -8,8 +8,8 @@ The dataset `datasets/adc/ft/adc.csv` contains 2000 data records. Each data reco
 
 ## Experiment result
 <p float="left">
-<img src=".\figs\loss.png" height = "300" alt="" align=center />
-<img src=".\figs\prediction.png" height = "300" alt="" align=center />
+<img src=".\figs\loss_kan_n10_grid5_k3.png" height = "300" alt="" align=center />
+<img src=".\figs\prediction_kan_n10_grid5_k3.png" height = "300" alt="" align=center />
 
 <b>Figure 1.</b> The loss curves vs epochs (left) and one example fitting result using trained model.
 </p>
