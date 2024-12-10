@@ -19,13 +19,13 @@ The dataset `datasets/adc/ft/adc.csv` contains 2000 data records. Each data reco
 To reproduce the result, run
 
 ```
-python run_nrmse.py
+python run.py --n 10 --grid 5 --k 3 --seed 0
 ```
 
-To use our model on the dataset, change `config.json` and our top-level `run_nrmse.py`.
+To use our model on the dataset, change `config.json` and our top-level `run.py`.
 
 ## Hardware requirements
-GPU: NVIDIA A100 GPU 40 GB
+GPU: NVIDIA A100 GPU 80 GB
 
 Memory: 16 GB
 
