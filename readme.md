@@ -22,7 +22,7 @@ To reproduce the result, run
 python run.py --n 10 --grid 5 --k 3 --seed 0
 ```
 
-To use our model on the dataset, change `config.json` and our top-level `run_nrmse.py`.
+To use our model on the dataset, change `config.json` and our top-level `run.py`.
 
 ## Hardware requirements
 GPU: NVIDIA A100 GPU 80 GB
